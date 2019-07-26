@@ -94,7 +94,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         <h1><span className="red-heading">search</span>caption</h1>
                     </div>
                     <div className="col-10">
-                        
+                        {/* render a text field for the search bar */}
                         <TextField
                             id="Search-Bar"
                             className="SearchBar"

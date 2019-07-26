@@ -48,10 +48,16 @@ class App extends React.Component<{}, IState>{
     })
   }
 
+  // update the URL to change the video we are playing
   public updateURL = (url: string) => {
+    // check if it is currently playing the passed in url
     if(this.state.playingURL === url){
+      // react video player quirk -> if we give it the same url, it won't update to go back to where we wanted to
+      // set playing url into an empty string
+      // set state can have a callback function so we pass in another set state that set it to our passed in url
       this.setState({playingURL : ""},() => this.setState({playingURL: url}))
     }else{
+      // else set the playing url to url
       this.setState({playingURL:url})
     }
   }
