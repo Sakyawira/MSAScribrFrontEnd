@@ -33,6 +33,7 @@ class App extends React.Component<{}, IState>{
   public addVideo = (url: string) => {
     const body = {"url": url}
     fetch("https://scriberapi.azurewebsites.net/api/Videos", {
+         //  fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
       // convert body to a string and put it into a json file
       body: JSON.stringify(body),
       headers: {

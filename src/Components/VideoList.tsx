@@ -27,8 +27,10 @@ export default class VideoList extends React.Component<IProps,IState>{
 
     // delete a video based on its id
     public deleteVideo = (id:any) => {
+        // fetch("https://sakyaapi.azurewebsites.net/api/Videos/"+id,{
         fetch("https://scriberapi.azurewebsites.net/api/Videos/"+id,{
             // use the delete method
+       
             method:'DELETE'
             // if success then run update
         }).then(() => {
@@ -43,7 +45,6 @@ export default class VideoList extends React.Component<IProps,IState>{
     // update function that fecth the API
     public updateList = () => {
         fetch('https://scriberapi.azurewebsites.net/api/Videos',{
-            // Make a get request
             method:'GET'
 
             // if returned, then convert into .json
@@ -94,10 +95,7 @@ export default class VideoList extends React.Component<IProps,IState>{
             "path":"/isFavourite",
             "value":!video.isFavourite,
         }]
-
-        // fetch the url and patch it with "to send"
         fetch("https://scriberapi.azurewebsites.net/api/Videos/update/"+video.videoId, {
-            // Converting the object "to send" to a string and put it into the json file
             body:JSON.stringify(toSend),
             headers: {
                 // Tell the fetch so it knows what to accept 
