@@ -32,7 +32,7 @@ class App extends React.Component<{}, IState>{
     // a function to add the video, which accepts a string called url
   public addVideo = (url: string) => {
     const body = {"url": url}
-    fetch("https://scriberapi.azurewebsites.net/api/Videos", {
+    fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
          //  fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
       // convert body to a string and put it into a json file
       body: JSON.stringify(body),
