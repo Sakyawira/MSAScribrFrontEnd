@@ -25,63 +25,105 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         }
     }
         
-
+    // Handle search of caption/transcription
     public search = () => {
-        if(this.state.input.trim() === ""){
+
+        // if the input of the search is empty
+        if(this.state.input.trim() === "")
+        {
+            // convert the result to a table
             this.setState({result:[]},()=>this.makeTableBody())
-        }else{
+        }
+        // else call the api and run the search by transcription function
+        else
+        {
             fetch("https://sakyaapi.azurewebsites.net/api/Videos/SearchByTranscriptions/"+this.state.input, {
                 headers: {
                   Accept: "text/plain"
                 },
                 method:"GET"
+
+            // convert the response to json
             }).then(response => {
                 return response.json()
+
+            // convert the result to a table
             }).then(answer => {
                 this.setState({result:answer},()=>this.makeTableBody())
             })
         }
     }
 
+
     public handleTableClick = (videoUrl:any, timedURL: string) => {
+        // scroll the window to the top
         window.scrollTo(0,0);
+        // play video at the specific time
         this.props.play(videoUrl + "&t=" + timedURL + "s")
     }
 
+    // Make a table
     public makeTableBody = () => {
         const toRet: any[] = [];
         this.state.result.sort((a:any, b:any)=>{
-            if(a.webUrl === b.webUrl){
+            // if a is the same as b, keep the order
+            if(a.webUrl === b.webUrl)
+            {
                 return 0;
-            }else if(a.webUrl === this.props.currentVideo){
+            }
+             // if a is the playing video, a is first
+            else if(a.webUrl === this.props.currentVideo)
+            {
                 return -1;
-            }else if(b.webUrl === this.props.currentVideo){
+            }
+            // if b is the playing video, b is first
+            else if(b.webUrl === this.props.currentVideo)
+            {
                 return 1;
             }
-            else{
+            // return alphabetically
+            else
+            {
                 return a.videoTitle.localeCompare(b.videoTitle);
             }
         })
+        // for each video
         this.state.result.forEach((video: any) => {
+            // for each video's transcription
             video.transcription.forEach((caption: any) => {
+                // make a table row for each transcription (caption)
                 toRet.push(
+                    // call the handle table click function on click
                     <tr onClick={() => this.handleTableClick(video.webUrl,caption.startTime)}>
+                       {/* starting time */}
                         <td>{caption.startTime}</td>
+                        {/* the phrase */}
                         <td>{caption.phrase}</td>
+                        {/* the title */}
                         <td>{video.videoTitle}</td>
                     </tr>)
             })
         });
-        if (toRet.length === 0) {
-            if(this.state.input.trim() === ""){
+        // if the length of the table row is 0
+        if (toRet.length === 0) 
+        {
+            // if the input was empty
+            if(this.state.input.trim() === "")
+            {
                 const errorCase = <div><p>Sorry you need to still search</p></div>
+                // make body into error case
                 this.setState({body:errorCase})
-            }else{
+            }
+            else
+            {
                 const errorCase = <div><p>Sorry no results were returned for "{this.state.input}"</p></div>
+                 // make body into error case
                 this.setState({body:errorCase})
             }
         }
-        else{
+        else
+        {
+             // make body into the table row
             this.setState({body:toRet})
         }
     }
