@@ -94,9 +94,11 @@ class App extends React.Component<{}, IState>{
             />
           </div>
           <div className="col-5">
+            {/* render the video list */}
             <VideoList play={this.updateURL} mount={this.listMounted} />
           </div>
         </div>
+          {/* render the caption area */}
         <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
       </div>
     </div>)
