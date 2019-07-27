@@ -119,7 +119,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                 const errorCase = <div><p>Sorry no results were returned for "{this.state.input}"</p></div>
                  // make body into error case
                 this.setState({body:errorCase})
-            }
+            } 
         }
         else
         {
@@ -156,13 +156,17 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     </div>
                 </div>
                 <br />
+                {/* make a table */}
                 <table className="table">
+                       {/* make a table headings */}
                     <tr>
                         <th>Time</th>
                         <th>Caption</th>
                         <th>Video</th>
                     </tr>
+                    {/* make a table content */}
                     <tbody className="captionTable">
+                        {/* set it to the body */}
                         {this.state.body}
                     </tbody>
                 </table>
