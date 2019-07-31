@@ -6,6 +6,7 @@ import * as React from 'react'
 // Declare an interface that contain video List which is of type any
 interface IState{
     videoList: any
+    
 }
 
 // Declare an interface that contain function mount and play which is of type any
@@ -14,7 +15,7 @@ interface IProps{
     play:any
 }
 
-export default class VideoList extends React.Component<IProps,IState>{
+class VideoList extends React.Component<IProps,IState>{
    
    // Construct a video list
     public constructor(props:any){
@@ -38,8 +39,11 @@ export default class VideoList extends React.Component<IProps,IState>{
         })
     }
 
-    public playVideo = (videoUrl:string) => {
-        this.props.play(videoUrl)
+    public playVideo = (video:any) => {
+        if (video.isFavourite === true)
+        {
+            this.props.play(video.webUrl)
+        }
     }
 
     // update function that fecth the API
@@ -64,11 +68,11 @@ export default class VideoList extends React.Component<IProps,IState>{
 
                     {/* on click, play video by getting the video url*/}
                     {/* render the thumbnail of the video */}
-                    <td className="align-middle" onClick={() => this.playVideo(video.webUrl)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
+                    <td className="align-middle" onClick={() => this.playVideo(video)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
 
                      {/* on click, play video by getting the video url*/}
                      {/* render the title of the video */}
-                    <td className="align-middle" onClick={() => this.playVideo(video.webUrl)}><b>{video.videoTitle}</b></td>
+                    <td className="align-middle" onClick={() => this.playVideo(video)}><b>{video.videoTitle}</b></td>
 
                     {/* on click, delete video by getting the video id*/}
                      {/* render the close button */}
@@ -87,7 +91,7 @@ export default class VideoList extends React.Component<IProps,IState>{
     }
 
     // handle the like of video (favourite)
-    public handleLike = (video:any) => {
+   public handleLike = (video:any) => {
         // Create the object to send
         const toSend = [{
             "from":"",
@@ -131,3 +135,5 @@ export default class VideoList extends React.Component<IProps,IState>{
         )
     }
 }
+
+export default VideoList;

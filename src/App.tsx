@@ -72,6 +72,8 @@ class App extends React.Component<{}, IState>{
     return (<div>
       {/* call the addVideo function */}
       <Header addVideo={this.addVideo} />
+        {/* render the caption area */}
+        <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
       <div className="container">
         <div className="row">
           <div className="col-7">
@@ -98,8 +100,7 @@ class App extends React.Component<{}, IState>{
             <VideoList play={this.updateURL} mount={this.listMounted} />
           </div>
         </div>
-          {/* render the caption area */}
-        <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
+        
       </div>
     </div>)
   }
