@@ -186,6 +186,53 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     </td>)
             })
         });
+
+        fetch("https://sakyaapi.azurewebsites.net/api/Videos/GetRandomVideo", {
+            headers: {
+              Accept: "text/plain"
+            },
+            method:"GET"
+
+        // convert the response to json
+        }).then(response => {
+            
+            return response.json()
+            
+        // convert the result to a table
+        }).then(answer => {
+            this.setState({result:answer})
+           // this.setState({})
+            
+        })
+
+        this.state.result.forEach((video: any) => {
+            
+            this.makeLike(video);
+            // this.handleLike(video);
+            // for each video's transcription
+            video.transcription.forEach((caption: any) => {
+                // make a table row for each transcription (caption)
+              //  var a = 0;
+             
+                toRet2.push(
+                  
+                    // call the handle table click function on click
+                    <td >
+                       {/* starting time */}
+                        {/* <td>{caption.startTime}</td> */}
+                        {/* the phrase */}
+                        {/* <td>{caption.phrase}</td> */}
+
+                         {/* on click, play video by getting the video url*/}
+                    {/* render the thumbnail of the video */}
+                    <td className="align-middle" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
+
+                        {/* the title */}
+                        {/* <td>{video.videoTitle}</td> */}
+                    </td>)
+            })
+        });
+
         // if the length of the table row is 0
         if (toRet.length === 0) 
         {
