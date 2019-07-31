@@ -29,15 +29,15 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     public search = () => {
 
         // if the input of the search is empty
-        if(this.state.input.trim() === "")
-        {
-            // convert the result to a table
-            this.setState({result:[]},()=>this.makeTableBody())
-        }
+        // if(this.state.input.trim() === "")
+        // {
+        //     // convert the result to a table
+        //     this.setState({result:[]},()=>this.makeTableBody())
+        // }
         // else call the api and run the search by transcription function
-        else
-        {
-            fetch("https://sakyaapi.azurewebsites.net/api/Videos/SearchByTranscriptions/"+this.state.input, {
+      //  else
+      //  {
+            fetch("https://sakyaapi.azurewebsites.net/api/Transcriptions/GetRandomTranscription", {
                 headers: {
                   Accept: "text/plain"
                 },
@@ -51,7 +51,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             }).then(answer => {
                 this.setState({result:answer},()=>this.makeTableBody())
             })
-        }
+     //   }
     }
 
 
@@ -65,28 +65,28 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     // Make a table
     public makeTableBody = () => {
         const toRet: any[] = [];
-        this.state.result.sort((a:any, b:any)=>{
-            // if a is the same as b, keep the order
-            if(a.webUrl === b.webUrl)
-            {
-                return 0;
-            }
-             // if a is the playing video, a is first
-            else if(a.webUrl === this.props.currentVideo)
-            {
-                return -1;
-            }
-            // if b is the playing video, b is first
-            else if(b.webUrl === this.props.currentVideo)
-            {
-                return 1;
-            }
-            // return alphabetically
-            else
-            {
-                return a.videoTitle.localeCompare(b.videoTitle);
-            }
-        })
+        // this.state.result.sort((a:any, b:any)=>{
+        //     // if a is the same as b, keep the order
+        //     if(a.webUrl === b.webUrl)
+        //     {
+        //         return 0;
+        //     }
+        //      // if a is the playing video, a is first
+        //     else if(a.webUrl === this.props.currentVideo)
+        //     {
+        //         return -1;
+        //     }
+        //     // if b is the playing video, b is first
+        //     else if(b.webUrl === this.props.currentVideo)
+        //     {
+        //         return 1;
+        //     }
+        //     // return alphabetically
+        //     else
+        //     {
+        //         return a.videoTitle.localeCompare(b.videoTitle);
+        //     }
+        // })
         // for each video
         this.state.result.forEach((video: any) => {
             // for each video's transcription
@@ -96,11 +96,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     // call the handle table click function on click
                     <tr onClick={() => this.handleTableClick(video.webUrl,caption.startTime)}>
                        {/* starting time */}
-                        <td>{caption.startTime}</td>
+                        {/* <td>{caption.startTime}</td> */}
                         {/* the phrase */}
                         <td>{caption.phrase}</td>
                         {/* the title */}
-                        <td>{video.videoTitle}</td>
+                        {/* <td>{video.videoTitle}</td> */}
                     </tr>)
             })
         });
@@ -131,16 +131,16 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     public render() {
         return (
             <div className="caption-area">
-                <div className="row">
+                <div className="row-10">
                     <div className="col-2 justify-content-center align-self-center">
-                        <h1><span className="red-heading">search</span>caption</h1>
+                        <h1><span className="red-heading">Which</span>song</h1>
                     </div>
                     <div className="col-10">
                         {/* render a text field for the search bar */}
                         <TextField
                             id="Search-Bar"
                             className="SearchBar"
-                            placeholder="Search Captions"
+                            placeholder="Get Random Lyric"
                             margin="normal"
                             variant="outlined"
                             onChange={(event: any) => this.setState({ input: event.target.value })}
@@ -160,9 +160,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                 <table className="table">
                        {/* make a table headings */}
                     <tr>
-                        <th>Time</th>
+                        {/* <th>Time</th> */}
                         <th>Caption</th>
-                        <th>Video</th>
+                        {/* <th>Video</th> */}
                     </tr>
                     {/* make a table content */}
                     <tbody className="captionTable">
