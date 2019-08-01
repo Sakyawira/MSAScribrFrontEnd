@@ -303,28 +303,14 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         }
     }
     public shuffleInPlace<T>(array: T[]): T[] {
-        // if it's 1 or 0 items, just return
-        const iArray: any[] = [];
-        if (array.length <= 1) 
-        {
-            return array;
+        for (let i = array.length - 1; i > 0; i--) {
+	    	const j = Math.floor(Math.random() * (i + 1));
+		    const swap = array[i];
+		    array[i] = array[j];
+		    array[j] = swap;
         }
-        // For each index in array
-        for (let i = 0; i < array.length; i++) {
-      
-          // choose a random not-yet-placed item to place there
-          // must be an item AFTER the current item, because the stuff
-          // before has all already been placed
-         
-          const randomChoiceIndex =  Math.floor(Math.random() * array.length - 1) + i;// getRandom(i, array.length - 1);
-      
-          // place our random choice in the spot by swapping
-        //  [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
-          iArray[i] = array[randomChoiceIndex];
-        }
-      
-        return iArray;
-      }
+        return array;
+ 	}
       
      
     public render() {
