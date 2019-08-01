@@ -110,7 +110,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     public makeTableBody = () => {
         let questionId: any = 0;
         const toRet: any[] = [];
-        const toRet2: any[] = [];
+        let toRet2: any[] = [];
         // this.state.result.sort((a:any, b:any)=>{
         //     // if a is the same as b, keep the order
         //     if(a.webUrl === b.webUrl)
@@ -274,14 +274,42 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         }
         else
         {
+            // let rng = Math.floor(Math.random() * 2) + 1;  
              // make body into the table row
+             // if (rn)
+              // Used like so
+           // var arr = [2, 11, 37, 42];
+             toRet2 = this.shuffleInPlace(toRet2);
+            // console.log(arr);
             this.setState({body:toRet2})
             this.setState({question:toRet})
             
           //  this.setState({question: ourQ});
         }
     }
-  
+    public shuffleInPlace<T>(array: T[]): T[] {
+        // if it's 1 or 0 items, just return
+        if (array.length <= 1) 
+        {
+            return array;
+        }
+        // For each index in array
+        for (let i = 0; i < array.length; i++) {
+      
+          // choose a random not-yet-placed item to place there
+          // must be an item AFTER the current item, because the stuff
+          // before has all already been placed
+         
+          const randomChoiceIndex =  Math.floor(Math.random() * array.length - 1) + i;// getRandom(i, array.length - 1);
+      
+          // place our random choice in the spot by swapping
+          [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
+        }
+      
+        return array;
+      }
+      
+     
     public render() {
         return (
             <div className="caption-area">
