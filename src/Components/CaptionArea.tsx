@@ -33,13 +33,14 @@ export default class CaptionArea extends React.Component<IProps, IState>{
            wrongResult: [],
         }
     }
+  
          // make a reference that allows App.tsx to access updateList from video.tsx
   public listMounted = (callbacks: any) => {
  //   this.setState({ updateVideoList: callbacks })
   }
     // Handle search of caption/transcription
     public search = () => {
-
+         
         // if the input of the search is empty
         // if(this.state.input.trim() === "")
         // {
@@ -107,6 +108,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
     // Make a table
     public makeTableBody = () => {
+        let questionId: any = 0;
         const toRet: any[] = [];
         const toRet2: any[] = [];
         // this.state.result.sort((a:any, b:any)=>{
@@ -186,16 +188,19 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
                          {/* on click, play video by getting the video url*/}
                     {/* render the thumbnail of the video */}
-                    <td className="align-middle" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
+                    <td className="align-left" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
 
                         {/* the title */}
                         {/* <td>{video.videoTitle}</td> */}
                     </td>)
               }
               pushedID = video.videoId;
+              questionId = video.videoId;
             })
         });
-
+        let currentId : any = questionId;
+      //  while (currentId === questionId)
+        {
         fetch("https://sakyaapi.azurewebsites.net/api/Videos/GetRandomVideo", {
             headers: {
               Accept: "text/plain"
@@ -211,18 +216,22 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         }).then(answer => {
             this.setState({wrongResult:answer})
            // this.setState({})
-            
+         // currentId = this.state.wrongResult.Videos[0].videoId
         })
-
+    }
         this.state.wrongResult.forEach((video: any) => {
-            
-            this.makeLike(video);
+           currentId = video.videoId;
+            if (currentId !== questionId)
+        {
+            let pushedID: any = 0;
+           // this.makeLike(video);
             // this.handleLike(video);
             // for each video's transcription
             video.transcription.forEach((caption: any) => {
                 // make a table row for each transcription (caption)
               //  var a = 0;
-             
+              if (pushedID !== video.videoId)
+              {
                 toRet2.push(
                   
                     // call the handle table click function on click
@@ -234,12 +243,16 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
                          {/* on click, play video by getting the video url*/}
                     {/* render the thumbnail of the video */}
-                    <td className="align-middle" ><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
+                    <td className="align-left" ><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
                     {/* onClick={() => this.handleTableClick(video,caption.startTime)} */}
                         {/* the title */}
                         {/* <td>{video.videoTitle}</td> */}
-                    </td>)
+                    </td>
+                    )
+              }
+              pushedID = video.videoId;
             })
+        }
         });
 
         // if the length of the table row is 0
@@ -302,7 +315,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                        {/* make a table headings */}
                     <tr>
                         {/* <th>Time</th> */}
-                        <th>Caption</th>
+                        <th>  {this.state.question}</th>
                         {/* <th>Video</th> */}
                     </tr>
                     {/* make a table content */}
