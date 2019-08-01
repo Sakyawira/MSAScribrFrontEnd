@@ -3,6 +3,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField'
 import Search from '@material-ui/icons/Search'
 import * as React from 'react'
+// import shuffle from 'shuffle.ts';
 // import { string } from 'prop-types';
 // import VideoList from './VideoList';
 
@@ -123,7 +124,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     public makeTableBody = () => {
         let questionId: any = 0;
         const toRet: any[] = [];
-        let toRet2: any[] = [];
+        const toRet2: any[] = [];
         // this.state.result.sort((a:any, b:any)=>{
         //     // if a is the same as b, keep the order
         //     if(a.webUrl === b.webUrl)
@@ -156,9 +157,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             video.transcription.forEach((caption: any) => {
                 // make a table row for each transcription (caption)
               //  var a = 0;
-              if (pushedID !== video.videoId)
+              if (pushedID !== video.videoId && video != null)
               {
-                toRet.push(
+                toRet2.push(
                   
                     // call the handle table click function on click
                     <td >
@@ -188,9 +189,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             video.transcription.forEach((caption: any) => {
                 // make a table row for each transcription (caption)
               //  var a = 0;
-              if (pushedID !== video.videoId)
+              if (pushedID !== video.videoId && video != null)
               {
-                toRet2.push(
+                toRet.push(
                   
                     // call the handle table click function on click
                     <td >
@@ -243,9 +244,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             video.transcription.forEach((caption: any) => {
                 // make a table row for each transcription (caption)
               //  var a = 0;
-              if (pushedID !== video.videoId)
+              if (pushedID !== video.videoId && video != null)
               {
-                toRet2.push(
+                toRet.push(
                   
                     // call the handle table click function on click
                     <td >
@@ -292,7 +293,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
              // if (rn)
               // Used like so
            // var arr = [2, 11, 37, 42];
-             toRet2 = this.shuffleInPlace(toRet2);
+            this.shuffleInPlace(toRet);
+            console.log(toRet);
             // console.log(arr);
             this.setState({body:toRet2})
             this.setState({question:toRet})
@@ -302,6 +304,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     }
     public shuffleInPlace<T>(array: T[]): T[] {
         // if it's 1 or 0 items, just return
+        const iArray: any[] = [];
         if (array.length <= 1) 
         {
             return array;
@@ -316,10 +319,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
           const randomChoiceIndex =  Math.floor(Math.random() * array.length - 1) + i;// getRandom(i, array.length - 1);
       
           // place our random choice in the spot by swapping
-          [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
+        //  [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
+          iArray[i] = array[randomChoiceIndex];
         }
       
-        return array;
+        return iArray;
       }
       
      

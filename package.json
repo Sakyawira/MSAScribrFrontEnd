@@ -8,7 +8,8 @@
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-player": "^1.11.1",
-        "react-scripts-ts": "3.1.0"
+        "react-scripts-ts": "3.1.0",
+        "shuffle.ts": "^1.0.1"
     },
     "scripts": {
         "start": "react-scripts-ts start",
