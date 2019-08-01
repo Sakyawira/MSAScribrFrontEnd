@@ -10,10 +10,12 @@ import * as React from 'react'
 
 interface IState {
     input: string,
+    isCorrect:any,
     result: any,
     body:any,
     question:any,
     wrongResult: any,
+    
 }
 
 interface IProps {
@@ -28,9 +30,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         this.state = {
             body: [],
             input: "",
+            isCorrect:"",
             question: [],
             result: [],
            wrongResult: [],
+          
         }
     }
   
@@ -50,7 +54,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         // else call the api and run the search by transcription function
       //  else
       //  {
-
+        this.setState({isCorrect:""});
         // Get Random transcription and change its like value
             fetch("https://sakyaapi.azurewebsites.net/api/Transcriptions/GetRandomTranscription", {
                 headers: {
@@ -94,6 +98,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
         
           })
+          
     }
 
     public handleTableClick = (video:any, timedURL: string) => {
@@ -104,6 +109,14 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         {
         this.props.play(video.webUrl + "&t=" + timedURL + "s")
         }
+        this.setState({isCorrect:"Correct!"});
+    }
+
+    public handleTableClickWrong = () => {
+        // scroll the window to the top
+        window.scrollTo(0,0);
+      
+        this.setState({isCorrect:"Wrong!"});
     }
 
     // Make a table
@@ -137,7 +150,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         
         this.state.result.forEach((video: any) => {
             let pushedID: any;
-            this.makeLike(video);
+           // this.makeLike(video);
             // this.handleLike(video);
             // for each video's transcription
             video.transcription.forEach((caption: any) => {
@@ -169,7 +182,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         });
         this.state.result.forEach((video: any) => {
             let pushedID: any;
-            this.makeLike(video);
+          //  this.makeLike(video);
             // this.handleLike(video);
             // for each video's transcription
             video.transcription.forEach((caption: any) => {
@@ -243,7 +256,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
                          {/* on click, play video by getting the video url*/}
                     {/* render the thumbnail of the video */}
-                    <td className="align-left" ><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
+                    <td className="align-left"onClick={() => this.handleTableClickWrong()} ><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
                     {/* onClick={() => this.handleTableClick(video,caption.startTime)} */}
                         {/* the title */}
                         {/* <td>{video.videoTitle}</td> */}
@@ -349,7 +362,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     {/* make a table content */}
                     <tbody className="captionTable">
                         {/* set it to the body */}
-                        {this.state.question}
+                        {this.state.isCorrect}
                     </tbody>
                     <tbody className="captionTable">
                         {/* set it to the body */}
