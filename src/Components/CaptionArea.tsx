@@ -13,6 +13,7 @@ interface IState {
     result: any,
     body:any,
     question:any,
+    wrongResult: any,
 }
 
 interface IProps {
@@ -29,7 +30,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             input: "",
             question: [],
             result: [],
-           
+           wrongResult: [],
         }
     }
          // make a reference that allows App.tsx to access updateList from video.tsx
@@ -133,14 +134,15 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         // for each video
         
         this.state.result.forEach((video: any) => {
-            
+            let pushedID: any;
             this.makeLike(video);
             // this.handleLike(video);
             // for each video's transcription
             video.transcription.forEach((caption: any) => {
                 // make a table row for each transcription (caption)
               //  var a = 0;
-             
+              if (pushedID !== video.videoId)
+              {
                 toRet.push(
                   
                     // call the handle table click function on click
@@ -157,17 +159,22 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         {/* the title */}
                         {/* <td>{video.videoTitle}</td> */}
                     </td>)
+                    
+              }
+              pushedID = video.videoId;
+               
             })
         });
         this.state.result.forEach((video: any) => {
-            
+            let pushedID: any;
             this.makeLike(video);
             // this.handleLike(video);
             // for each video's transcription
             video.transcription.forEach((caption: any) => {
                 // make a table row for each transcription (caption)
               //  var a = 0;
-             
+              if (pushedID !== video.videoId)
+              {
                 toRet2.push(
                   
                     // call the handle table click function on click
@@ -184,6 +191,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         {/* the title */}
                         {/* <td>{video.videoTitle}</td> */}
                     </td>)
+              }
+              pushedID = video.videoId;
             })
         });
 
@@ -200,12 +209,12 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             
         // convert the result to a table
         }).then(answer => {
-            this.setState({result:answer})
+            this.setState({wrongResult:answer})
            // this.setState({})
             
         })
 
-        this.state.result.forEach((video: any) => {
+        this.state.wrongResult.forEach((video: any) => {
             
             this.makeLike(video);
             // this.handleLike(video);
@@ -225,8 +234,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
                          {/* on click, play video by getting the video url*/}
                     {/* render the thumbnail of the video */}
-                    <td className="align-middle" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
-
+                    <td className="align-middle" ><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
+                    {/* onClick={() => this.handleTableClick(video,caption.startTime)} */}
                         {/* the title */}
                         {/* <td>{video.videoTitle}</td> */}
                     </td>)
