@@ -106,10 +106,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         // scroll the window to the top
         window.scrollTo(0,0);
         // play video at the specific time
-        if (video.isFavourite === true)
-        {
+       
         this.props.play(video.webUrl + "&t=" + timedURL + "s")
-        }
+        
         this.setState({isCorrect:"Correct!"});
     }
 
@@ -160,27 +159,15 @@ export default class CaptionArea extends React.Component<IProps, IState>{
               if (pushedID !== video.videoId && video != null)
               {
                 toRet2.push(
-                  
-                    // call the handle table click function on click
+                    // Push the caption into an array
                     <td >
-                       {/* starting time */}
-                        {/* <td>{caption.startTime}</td> */}
-                        {/* the phrase */}
                         <td>{caption.phrase}</td>
-
-                         {/* on click, play video by getting the video url*/}
-                    {/* render the thumbnail of the video */}
-                    {/* <td className="align-middle" onClick={() => this.handleTableClick(video.webUrl,caption.startTime)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td> */}
-
-                        {/* the title */}
-                        {/* <td>{video.videoTitle}</td> */}
                     </td>)
-                    
               }
               pushedID = video.videoId;
-               
             })
         });
+
         this.state.result.forEach((video: any) => {
             let pushedID: any;
           //  this.makeLike(video);
@@ -316,19 +303,20 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     public render() {
         return (
             <div className="caption-area">
-                <div className="row-26">
-                    <div className="col-2 justify-content-center align-self-center">
-                        <h1><span className="red-heading">Which</span>song</h1>
-                    </div>
-                    <div className="col-10">
+                {/* <div className="row"> */}
+                    {/* <div className="col-26 "> */}
+                        <h1 ><span className="red-heading">Which</span>song</h1>
+                        <h1 ><span className="red-heading">contains</span>these</h1>
+                        <div className="row">
+                        <div className="col-12 ">
                         {/* render a text field for the search bar */}
                         <TextField
                             id="Search-Bar"
                             className="SearchBar"
                             placeholder="Get Random Lyric"
-                            margin="normal"
-                            variant="outlined"
-                            onChange={(event: any) => this.setState({ input: event.target.value })}
+                            margin="none"
+                            variant="standard"
+                            onChange={(event: any) => this.setState({ input: this.state.input })}
                             value={this.state.input}
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">
@@ -338,8 +326,10 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                                 </InputAdornment>
                             }}
                         />
-                    </div>
+                    {/* </div> */}
                 </div>
+                    </div>
+                    {/* </div> */}
                 <br />
                 {/* make a table */}
                 <table className="table">

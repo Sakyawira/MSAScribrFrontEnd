@@ -1,9 +1,9 @@
 import * as React from 'react';
 import ReactPlayer from 'react-player';
-import {InlineReactionButtons} from 'sharethis-reactjs';
-import {InlineShareButtons} from 'sharethis-reactjs';
+// import {InlineReactionButtons} from 'sharethis-reactjs';
+// import {InlineShareButtons} from 'sharethis-reactjs';
 import {StickyShareButtons} from 'sharethis-reactjs';
-import {InlineFollowButtons} from 'sharethis-reactjs';
+// import {InlineFollowButtons} from 'sharethis-reactjs';
 import CaptionArea from 'src/Components/CaptionArea';
 import Header from 'src/Components/Header';
 import VideoList from 'src/Components/VideoList';
@@ -95,7 +95,7 @@ class App extends React.Component<{}, IState>{
           }
         `}} />
  
-        <h1>Inline Share Buttons</h1>
+        {/* <h1>Inline Share Buttons</h1>
         <InlineShareButtons
           config={{
             alignment: 'center',  // alignment of buttons (left, center, right)
@@ -190,7 +190,7 @@ class App extends React.Component<{}, IState>{
             spacing: 8            // the spacing between buttons (INTEGER)
           }}
         />
-        <hr />
+        <hr /> */}
  
         <StickyShareButtons
           config={{
@@ -217,7 +217,7 @@ class App extends React.Component<{}, IState>{
         
            
             size: 48,             // the size of each button (INTEGER)
-            top: 160,             // offset in pixels from the top of the page
+            top: 260,             // offset in pixels from the top of the page
  
             // // OPTIONAL PARAMETERS
             // url: 'https://www.sharethis.com', // (defaults to current url)
@@ -236,8 +236,9 @@ class App extends React.Component<{}, IState>{
       <Header addVideo={this.addVideo} />
         {/* render the caption area */}
         
-        <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
-      <div className="container">
+        <div className="col-26">
+      <div className="container" >
+      <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
         <div className="row">
           <div className="col-7">
             <ReactPlayer
@@ -266,7 +267,7 @@ class App extends React.Component<{}, IState>{
   
           </div>
         </div>
-        
+        </div>
       </div>
     </div>)
   }
