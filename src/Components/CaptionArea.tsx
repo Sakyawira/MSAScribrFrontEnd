@@ -316,7 +316,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     public render() {
         return (
             <div className="caption-area">
-                <div className="row">
+                <div className="row-26">
                     <div className="col-2 justify-content-center align-self-center">
                         <h1><span className="red-heading">Which</span>song</h1>
                     </div>
