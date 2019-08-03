@@ -33,7 +33,7 @@ export default class Header extends React.Component<IProps,IState> {
                         <div className="col-2 justify-content-center align-self-left">
                             <h1><span className="red-heading">Guess</span>The Lyric</h1>
                         </div>        
-                        <div className="col-10">
+                        <div className="col-7">
                             <TextField
                             id= "Search-Bar"
                             className = "SearchBar"
@@ -43,7 +43,7 @@ export default class Header extends React.Component<IProps,IState> {
                             onChange = { (event: any ) => this.setState({input:event.target.value})}
                             value = {this.state.input}
                             InputProps={{
-                                endAdornment: <InputAdornment position="end">
+                                endAdornment: <InputAdornment position="start">
                                     <IconButton onClick={this.addVideo}>
                                         <AddCircle/>
                                     </IconButton>

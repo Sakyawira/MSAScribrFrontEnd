@@ -178,12 +178,12 @@ class App extends React.Component<{}, IState>{
             ],
             padding: 8,           // padding within buttons (INTEGER)
             profiles: {           // social profile links for buttons
-              facebook: 'sharethis',
-              instagram: 'sharethis',
-              twitter: 'sharethis',
+              facebook: 'sakyawira.nandaruslim?ref=bookmarks',
+              instagram: 'sakyawira',
+              twitter: 'sakyawira',
              
              
-              youtube: '/channel/UCbM93niCmdc2RD9RZbLMP6A?view_as=subscriber'
+              youtube: '/channel/UC6eh_JZFR8O9w-de4sIjR5g?view_as=subscriber'
             },
             radius: 9,            // the corner radius on each button (INTEGER)
             size: 32,             // the size of each button (INTEGER)
@@ -258,9 +258,12 @@ class App extends React.Component<{}, IState>{
               }
             />
           </div>
+         
           <div className="col-5">
+        
             {/* render the video list */}
-            <VideoList play={this.updateURL} mount={this.listMounted} />
+            <VideoList addVideo={this.addVideo} play={this.updateURL} mount={this.listMounted} />
+  
           </div>
         </div>
         

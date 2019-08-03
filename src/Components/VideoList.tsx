@@ -1,16 +1,22 @@
 import Close from '@material-ui/icons/Close'
+import { IconButton } from '@material-ui/core';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField'
+import AddCircle from '@material-ui/icons/AddCircle'
 import Star from '@material-ui/icons/Star'
 import StarBorder from '@material-ui/icons/StarBorder'
 import * as React from 'react'
 
 // Declare an interface that contain video List which is of type any
 interface IState{
+    input:string
     videoList: any
     
 }
 
 // Declare an interface that contain function mount and play which is of type any
 interface IProps{
+    addVideo:any,
     mount:any
     play:any
 }
@@ -21,6 +27,7 @@ class VideoList extends React.Component<IProps,IState>{
     public constructor(props:any){
         super(props);
         this.state = {
+            input:"",
             videoList: []
         }
         this.updateList();
@@ -37,6 +44,10 @@ class VideoList extends React.Component<IProps,IState>{
         }).then(() => {
             this.updateList()
         })
+    }
+
+    public addVideo = () =>{            
+        this.props.addVideo(this.state.input)
     }
 
     public playVideo = (video:any) => {
@@ -126,8 +137,38 @@ class VideoList extends React.Component<IProps,IState>{
     public render() {
         return (
             <div className="video-list">
+                 {/* <div className="container">
+                    <div className="row-3">
+                        <div className="col-2 justify-content-center align-self-left">
+                            <h1><span className="red-heading">Guess</span>The Lyric</h1>
+                        </div>        
+                        
+                    </div>
+                </div> */}
                 {/* create a heading "play video" */}
                 <h1 className="play-heading"><span className="red-heading">play</span>video</h1>
+                <div className="row">
+                <div className="col-10">
+                    
+                            <TextField
+                            id= "Search-Bar"
+                            className = "SearchBar"
+                            placeholder="Add Video Url"
+                            margin="dense"
+                            variant="outlined"
+                            onChange = { (event: any ) => this.setState({input:event.target.value})}
+                            value = {this.state.input}
+                            InputProps={{
+                                endAdornment: <InputAdornment  position="end" variant="standard">
+                                    <IconButton edge = "end" onClick={this.addVideo} size ="small">
+                                        <AddCircle color = "action" fontSize = "small"/>
+                                    </IconButton>
+                                </InputAdornment>,
+                            }}
+                            />
+                            
+                        </div>
+                        </div>
                 <table className="table">
                     {this.state.videoList}
                 </table>
