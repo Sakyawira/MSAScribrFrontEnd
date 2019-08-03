@@ -207,7 +207,7 @@ class App extends React.Component<{}, IState>{
               'facebook',
               'twitter',
               'pinterest',
-              'email'
+              'reddit'
             ],
             padding: 12,          // padding within buttons (INTEGER)
             radius: 4,            // the corner radius on each button (INTEGER)
@@ -236,7 +236,7 @@ class App extends React.Component<{}, IState>{
       <Header addVideo={this.addVideo} />
         {/* render the caption area */}
         
-        <div className="col-26">
+        {/* <div className="col-26"> */}
       <div className="container" >
       <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
         <div className="row">
@@ -268,7 +268,7 @@ class App extends React.Component<{}, IState>{
           </div>
         </div>
         </div>
-      </div>
+      {/* </div> */}
     </div>)
   }
 }

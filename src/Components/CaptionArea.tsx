@@ -160,7 +160,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
               {
                 toRet2.push(
                     // Push the caption into an array
-                    <td >
+                    <td className="red-heading">
                         <td>{caption.phrase}</td>
                     </td>)
               }
@@ -330,25 +330,30 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                 </div>
                     </div>
                     {/* </div> */}
-                <br />
+                {/* <br /> */}
                 {/* make a table */}
                 <table className="table">
-                       {/* make a table headings */}
-                    <tr>
+                       {/* videos*/}
+                    {/* <tr> */}
                         {/* <th>Time</th> */}
                         <th>  {this.state.question}</th>
                         {/* <th>Video</th> */}
-                    </tr>
+                    {/* </tr> */}
+
                     {/* make a table content */}
-                    <tbody className="captionTable">
-                        {/* set it to the body */}
+                    <tbody className="feedbackTable">
+                        {/* feedback */}
                         {this.state.isCorrect}
                     </tbody>
-                    <tbody className="captionTable">
-                        {/* set it to the body */}
+
+                 
+                    
+
+                </table>
+                <tbody className="red-heading">
+                        {/* question */}
                         {this.state.body}
                     </tbody>
-                </table>
             </div>
         )
     }
