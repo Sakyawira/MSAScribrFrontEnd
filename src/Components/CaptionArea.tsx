@@ -205,7 +205,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     <td className="align-left" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
 
                         {/* the title */}
-                        {/* <td>{video.videoTitle}</td> */}
+                        <td>{video.videoTitle}</td>
                     </td>)
               }
               pushedID = video.videoId;
@@ -260,7 +260,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     <td className="align-left"onClick={() => this.handleTableClickWrong()} ><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
                     {/* onClick={() => this.handleTableClick(video,caption.startTime)} */}
                         {/* the title */}
-                        {/* <td>{video.videoTitle}</td> */}
+                        <td>{video.videoTitle}</td>
                     </td>
                     )
               }

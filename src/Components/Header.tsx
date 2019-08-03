@@ -26,12 +26,13 @@ export default class Header extends React.Component<IProps,IState> {
 
     public render() {
         return (
+            
             <div className="header">
                 <div className="container">
                     <div className="row">
                         <div className="col-2 justify-content-center align-self-left">
                             <h1><span className="red-heading">Guess</span>The Lyric</h1>
-                        </div>
+                        </div>        
                         <div className="col-10">
                             <TextField
                             id= "Search-Bar"
@@ -49,9 +50,11 @@ export default class Header extends React.Component<IProps,IState> {
                                 </InputAdornment>,
                             }}
                             />
+                            
                         </div>
                     </div>
                 </div>
+                
             </div>
         )
     }
