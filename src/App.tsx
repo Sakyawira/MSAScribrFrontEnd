@@ -8,6 +8,11 @@ import CaptionArea from 'src/Components/CaptionArea';
 import Header from 'src/Components/Header';
 import VideoList from 'src/Components/VideoList';
 import 'src/App.css'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
+
 
 
 interface IState {
@@ -237,6 +242,10 @@ class App extends React.Component<{}, IState>{
         {/* render the caption area */}
         
         {/* <div className="col-26"> */}
+        <Container>
+  {/* Stack the columns on mobile by making one full-width and the other half-width */}
+  <Row>
+    <Col xs={12} md={8} lg ={12}>
       <div className="container" >
       <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
         <div className="row">
@@ -267,10 +276,18 @@ class App extends React.Component<{}, IState>{
             <VideoList addVideo={this.addVideo} play={this.updateURL} mount={this.listMounted} />
   
           </div>
+          
         </div>
+
         </div>
+   
       {/* </div> */}
-    </div>)
+      </Col>
+      </Row>
+        </Container>
+
+    </div>
+    )
   }
 }
 
