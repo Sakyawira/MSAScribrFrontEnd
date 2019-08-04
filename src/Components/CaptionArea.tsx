@@ -1,6 +1,8 @@
 import Button from 'react-bootstrap/Button'
-import Alert from 'react-bootstrap/Alert'
-
+// import Alert from 'react-bootstrap/Alert'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 // import { IconButton } from '@material-ui/core';
 // import InputAdornment from '@material-ui/core/InputAdornment';
 // import TextField from '@material-ui/core/TextField'
@@ -168,7 +170,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
               {
                 toRet2.push(
                     // Push the caption into an array
-                    <td className="red-heading">
+                    <td className="align-left">
                         <td>{caption.phrase}</td>
                     </td>)
               }
@@ -311,20 +313,21 @@ export default class CaptionArea extends React.Component<IProps, IState>{
      
     public render() {
         return (
-            <div className="caption-area">
+            <div className = "caption-area">
+            <Container>
                 {/* <div className="row"> */}
                     {/* <div className="col-26 "> */}
-                    <div className="row">
-                        <div className="col-12 ">
-                        <h1 ><span className="red-heading">Which</span>song</h1>
-                        <h1 ><span className="red-heading">contains</span>these</h1>
-                      
-                        <tbody className="red-heading">
-                        {/* question */}
-                        <Alert variant={"secondary"}>
-                        {this.state.body === [] ? "...?" : this.state.body}
-                        </Alert>
-                        <Button
+                    <Row>
+                        <Col xs={12} md={7} lg ={10}>
+                        <h1 ><span className="lyric-heading">Which song contains these</span> {this.state.body}</h1>
+                        {/* <h1 ><span className="lyric-heading"></span></h1> */}
+                       
+                        </Col>
+
+                       
+                        <Col xs={12} md={5} lg ={2}>
+                      {/* question */}
+                      <Button
                             variant="danger"
                             size = "sm"
                             disabled = {this.state.isLoading}
@@ -342,40 +345,29 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                                 />
                                : null}
                             </Button>
-                    </tbody>
-                        {/* render a text field for the search bar */}
-                        {/* <TextField
-                            id="Search-Bar"
-                            className="SearchBar"
-                            placeholder="Get Random Lyric"
-                            margin="none"
-                            variant="standard"
-                            onChange={(event: any) => this.setState({ input: this.state.input })}
-                            value={this.state.input}
-                            
-                            InputProps={{
-                                endAdornment: <InputAdornment position="end">
-                                    <IconButton onClick={() => this.search()}>
-                                        <Search />
-                                    </IconButton>
-                                </InputAdornment>
-                            }}
-                            
-                        /> */}
-                            
-                    {/* </div> */}
-                </div>
-                    </div>
-                    {/* </div> */}
-                {/* <br /> */}
-                {/* make a table */}
+                        {/* <Alert variant={"secondary"} > */}
+                         
+                        {/* </Alert> */}
+                     </Col>
+                   
+                     {/* <tbody className="lyric-heading"> */}
+                      
+                     {/* </tbody> */}
+                    </Row>
+
+                    <Row>
+                    {/* make a table */}
                 <table className="table">
                        {/* videos*/}
-                    {/* <tr> */}
-                        {/* <th>Time</th> */}
-                        <th>  {this.state.question}</th>
-                        {/* <th>Video</th> */}
-                    {/* </tr> */}
+                       <Col xs={12} md={7} lg ={4}>
+                        <th>  {this.state.question[0]}</th>
+                        </Col>
+                        <Col xs={12} md={7} lg ={4}>
+                        <th>  {this.state.question[1]}</th>
+                        </Col>
+                        <Col xs={12} md={7} lg ={4}>
+                        <th>  {this.state.question[2]}</th>
+                        </Col>
 
                     {/* make a table content */}
                     <tbody className="feedbackTable">
@@ -384,7 +376,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     </tbody>
 
                 </table>
+                    </Row>
+
+               
                 
+            </Container>
             </div>
         )
     }
