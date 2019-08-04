@@ -1,8 +1,9 @@
 import Button from 'react-bootstrap/Button'
-import { IconButton } from '@material-ui/core';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField'
-import Search from '@material-ui/icons/Search'
+// import { IconButton } from '@material-ui/core';
+// import InputAdornment from '@material-ui/core/InputAdornment';
+// import TextField from '@material-ui/core/TextField'
+// import Search from '@material-ui/icons/Search'
+import Spinner from 'react-bootstrap/Spinner'
 import * as React from 'react'
 
 // import shuffle from 'shuffle.ts';
@@ -315,7 +316,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         <div className="row">
                         <div className="col-12 ">
                         {/* render a text field for the search bar */}
-                        <TextField
+                        {/* <TextField
                             id="Search-Bar"
                             className="SearchBar"
                             placeholder="Get Random Lyric"
@@ -332,13 +333,24 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                                 </InputAdornment>
                             }}
                             
-                        />
+                        /> */}
                             <Button
-                            variant="primary"
+                            variant="danger"
+                            size = "sm"
                             disabled = {this.state.isLoading}
                             onClick={() => this.search()}
                             >
-                            {this.state.isLoading ? 'Loading…' : 'Click to load'}
+                            {this.state.isLoading ? 'Loading…' : 'Get new question'}
+                               {this.state.isLoading ?
+                               
+                                <Spinner
+                                as="span"
+                                animation="grow"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                                />
+                               : null}
                             </Button>
                     {/* </div> */}
                 </div>
