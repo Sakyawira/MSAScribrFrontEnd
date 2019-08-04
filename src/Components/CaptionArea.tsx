@@ -1,10 +1,13 @@
 import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
+
 // import { IconButton } from '@material-ui/core';
 // import InputAdornment from '@material-ui/core/InputAdornment';
 // import TextField from '@material-ui/core/TextField'
 // import Search from '@material-ui/icons/Search'
 import Spinner from 'react-bootstrap/Spinner'
 import * as React from 'react'
+
 
 // import shuffle from 'shuffle.ts';
 // import { string } from 'prop-types';
@@ -311,10 +314,35 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             <div className="caption-area">
                 {/* <div className="row"> */}
                     {/* <div className="col-26 "> */}
+                    <div className="row">
+                        <div className="col-12 ">
                         <h1 ><span className="red-heading">Which</span>song</h1>
                         <h1 ><span className="red-heading">contains</span>these</h1>
-                        <div className="row">
-                        <div className="col-12 ">
+                      
+                        <tbody className="red-heading">
+                        {/* question */}
+                        <Alert variant={"secondary"}>
+                        {this.state.body === [] ? "...?" : this.state.body}
+                        </Alert>
+                        <Button
+                            variant="danger"
+                            size = "sm"
+                            disabled = {this.state.isLoading}
+                            onClick={() => this.search()}
+                            >
+                            {this.state.isLoading ? 'Loading…' : 'Get new question'}
+                               {this.state.isLoading ?
+                               
+                                <Spinner
+                                as="span"
+                                animation="grow"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                                />
+                               : null}
+                            </Button>
+                    </tbody>
                         {/* render a text field for the search bar */}
                         {/* <TextField
                             id="Search-Bar"
@@ -334,24 +362,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                             }}
                             
                         /> */}
-                            <Button
-                            variant="danger"
-                            size = "sm"
-                            disabled = {this.state.isLoading}
-                            onClick={() => this.search()}
-                            >
-                            {this.state.isLoading ? 'Loading…' : 'Get new question'}
-                               {this.state.isLoading ?
-                               
-                                <Spinner
-                                as="span"
-                                animation="grow"
-                                size="sm"
-                                role="status"
-                                aria-hidden="true"
-                                />
-                               : null}
-                            </Button>
+                            
                     {/* </div> */}
                 </div>
                     </div>
@@ -373,10 +384,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     </tbody>
 
                 </table>
-                <tbody className="red-heading">
-                        {/* question */}
-                        {this.state.body}
-                    </tbody>
+                
             </div>
         )
     }
