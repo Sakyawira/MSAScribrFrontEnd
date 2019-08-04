@@ -56,6 +56,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     // Handle search of caption/transcription
     public search = () => {
         this.setState({isLoading: true});
+        window.scrollTo(0,0);
         // if the input of the search is empty
         // if(this.state.input.trim() === "")
         // {
@@ -114,7 +115,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
     public handleTableClick = (video:any, timedURL: string) => {
         // scroll the window to the top
-        window.scrollTo(0,0);
+        window.scrollTo(0,260);
         // play video at the specific time
        
         this.props.play(video.webUrl + "&t=" + timedURL + "s")
