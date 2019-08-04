@@ -241,6 +241,7 @@ class App extends React.Component<{}, IState>{
       <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
         <div className="row">
           <div className="col-7">
+            
             <ReactPlayer
               className="player"
               ref={this.setRef}

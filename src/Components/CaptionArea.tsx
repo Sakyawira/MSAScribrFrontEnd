@@ -1,8 +1,10 @@
+import Button from 'react-bootstrap/Button'
 import { IconButton } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField'
 import Search from '@material-ui/icons/Search'
 import * as React from 'react'
+
 // import shuffle from 'shuffle.ts';
 // import { string } from 'prop-types';
 // import VideoList from './VideoList';
@@ -12,11 +14,12 @@ import * as React from 'react'
 interface IState {
     input: string,
     isCorrect:any,
+    isLoading: any,
     result: any,
     body:any,
     question:any,
     wrongResult: any,
-    
+   
 }
 
 interface IProps {
@@ -32,10 +35,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             body: [],
             input: "",
             isCorrect:"",
+            isLoading: false,
             question: [],
             result: [],
            wrongResult: [],
-          
+         
         }
     }
   
@@ -45,7 +49,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
   }
     // Handle search of caption/transcription
     public search = () => {
-         
+        this.setState({isLoading: true});
         // if the input of the search is empty
         // if(this.state.input.trim() === "")
         // {
@@ -288,6 +292,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             
           //  this.setState({question: ourQ});
         }
+        this.setState({isLoading: false});
     }
     public shuffleInPlace<T>(array: T[]): T[] {
         for (let i = array.length - 1; i > 0; i--) {
@@ -318,6 +323,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                             variant="standard"
                             onChange={(event: any) => this.setState({ input: this.state.input })}
                             value={this.state.input}
+                            
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">
                                     <IconButton onClick={() => this.search()}>
@@ -325,7 +331,15 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                                     </IconButton>
                                 </InputAdornment>
                             }}
+                            
                         />
+                            <Button
+                            variant="primary"
+                            disabled = {this.state.isLoading}
+                            onClick={() => this.search()}
+                            >
+                            {this.state.isLoading ? 'Loading…' : 'Click to load'}
+                            </Button>
                     {/* </div> */}
                 </div>
                     </div>
@@ -345,9 +359,6 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         {/* feedback */}
                         {this.state.isCorrect}
                     </tbody>
-
-                 
-                    
 
                 </table>
                 <tbody className="red-heading">
