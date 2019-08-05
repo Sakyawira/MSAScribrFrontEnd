@@ -3,6 +3,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField'
 import AddCircle from '@material-ui/icons/AddCircle'
 import * as React from 'react';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 interface IProps{
     addVideo:any,
@@ -28,12 +31,12 @@ export default class Header extends React.Component<IProps,IState> {
         return (
             
             <div className="header">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-2 justify-content-center align-self-left">
+                <Container>
+                    <Row>
+                        <Col xs={12} md={12} lg ={5}>
                             <h1><span className="red-heading">Guess</span>The Lyric</h1>
-                        </div>        
-                        <div className="col-7">
+                        </Col>        
+                        <Col xs={12} md={12} lg ={7}>
                             <TextField
                             id= "Search-Bar"
                             className = "SearchBar"
@@ -51,9 +54,9 @@ export default class Header extends React.Component<IProps,IState> {
                             }}
                             />
                             
-                        </div>
-                    </div>
-                </div>
+                        </Col>
+                    </Row>
+                </Container>
                 
             </div>
         )
