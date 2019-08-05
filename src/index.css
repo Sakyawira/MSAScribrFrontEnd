@@ -17,10 +17,26 @@ h1 {
   font-weight: 600;
   color: #6D6D6D;
   float: left;
+  padding-top: 0px;
 }
 
 .red-heading {
   color: #C1263A;
+  padding-top: 0px;
+ /* font-size: 28px; */
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #6D6D6D;
+  float: left;
+  padding-top: 10px;
+}
+
+.red-heading2 {
+  color: #C1263A;
+  padding-top: 10px;
  /* font-size: 28px; */
 }
 
@@ -72,10 +88,12 @@ h1 {
 }
 
 .video-list > .table {
+  background-color: #F5F5F5;
   cursor: pointer;
 }
 
 .video-list-close {
+  background-color: #F5F5F5;
   width: 60px;
 }
 

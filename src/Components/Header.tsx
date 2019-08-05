@@ -34,7 +34,7 @@ export default class Header extends React.Component<IProps,IState> {
                 <Container>
                     <Row>
                         <Col xs={12} md={12} lg ={5}>
-                            <h1><span className="red-heading">Guess</span>The Lyric</h1>
+                            <h2><span className="red-heading2">Guess</span>The Lyric</h2>
                         </Col>        
                         <Col xs={12} md={12} lg ={7}>
                             <TextField
