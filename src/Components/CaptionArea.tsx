@@ -190,9 +190,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     <table className="table"> 
                     <tr>
                      <td >
-                     <td className="title-heading" onClick={() => this.handleTableClick(video,caption.startTime)}><b>{video.videoTitle}</b></td>
-                     <td className="title-heading" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail"/></td>
- 
+                     
+                     <td className="align-left" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail"/></td>
+                     <td className="align-right" onClick={() => this.handleTableClick(video,caption.startTime)}><b>{video.videoTitle}</b></td>
                          {/* the title */}
                          {/* <td className="table">{video.videoTitle}</td> */}
                         
@@ -243,8 +243,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     <table className="table"> 
                     <tr>
                      <td >
-                     <td className="title-heading" onClick={() => this.handleTableClickWrong()}><b>{video.videoTitle}</b></td>
-                     <td className="title-heading" onClick={() => this.handleTableClickWrong()}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail"/></td>
+                     <td className="align-left" onClick={() => this.handleTableClickWrong()}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail"/></td>
+                     <td className="align-right" onClick={() => this.handleTableClickWrong()}><b>{video.videoTitle}</b></td>
+                    
  
                          {/* the title */}
                          {/* <td className="table">{video.videoTitle}</td> */}

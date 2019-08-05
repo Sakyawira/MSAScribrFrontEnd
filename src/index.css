@@ -7,7 +7,7 @@ body {
 }
 
 .header {
-  background-color: #F8F8F8;
+  background-color: #F5F5F5;
   padding-top: 10px;
   margin-bottom: 20px;
 }
@@ -50,10 +50,12 @@ h1 {
 }
 
 .table {
+  background-color: #F5F5F5;
   font-size: 12px;
 }
 
 .table td, .table th {
+  background-color: #F5F5F5;
   padding: 7px;
 }
 

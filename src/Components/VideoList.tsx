@@ -145,7 +145,7 @@ class VideoList extends React.Component<IProps,IState>{
                     </div>
                 </div> */}
                 {/* create a heading "play video" */}
-                <h1 className="play-heading"><span className="red-heading">play</span>video</h1>
+                <h1 className="play-heading"><span className="red-heading">video</span>List</h1>
                 <div className="row">
                 <div className="col-10">
                     

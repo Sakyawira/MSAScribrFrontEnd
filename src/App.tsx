@@ -246,10 +246,11 @@ class App extends React.Component<{}, IState>{
   {/* Stack the columns on mobile by making one full-width and the other half-width */}
   <Row>
     <Col xs={12} md={12} lg ={12}>
-      <div className="container" >
+      {/* <div className="container" > */}
       <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
-        <div className="row">
-          <Col xs = {3} md = {5} lg={7}>
+        {/* <div className="row"> */}
+        <Row>
+          <Col xs = {12} md = {5} lg={7}>
             
             <ReactPlayer
               className="player"
@@ -276,12 +277,8 @@ class App extends React.Component<{}, IState>{
             <VideoList addVideo={this.addVideo} play={this.updateURL} mount={this.listMounted} />
   
           </Col>
-          
-        </div>
-
-        </div>
-   
-      {/* </div> */}
+          </Row>
+    
       </Col>
       </Row>
         </Container>
