@@ -6,6 +6,10 @@ import AddCircle from '@material-ui/icons/AddCircle'
 import Star from '@material-ui/icons/Star'
 import StarBorder from '@material-ui/icons/StarBorder'
 import * as React from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
 
 // Declare an interface that contain video List which is of type any
 interface IState{
@@ -136,18 +140,12 @@ class VideoList extends React.Component<IProps,IState>{
     public render() {
         return (
             <div className="video-list">
-                 {/* <div className="container">
-                    <div className="row-3">
-                        <div className="col-2 justify-content-center align-self-left">
-                            <h1><span className="red-heading">Guess</span>The Lyric</h1>
-                        </div>        
-                        
-                    </div>
-                </div> */}
-                {/* create a heading "play video" */}
+                 <Container>
+                  
+              
+                <Row>
                 <h1 className="play-heading"><span className="red-heading">video</span>List</h1>
-                <div className="row">
-                <div className="col-10">
+                <Col>
                     
                             <TextField
                             id= "Search-Bar"
@@ -166,11 +164,12 @@ class VideoList extends React.Component<IProps,IState>{
                             }}
                             />
                             
-                        </div>
-                        </div>
+                        </Col>
+                        </Row>
                 <table className="table">
                     {this.state.videoList}
                 </table>
+                </Container>
             </div>
         )
     }
