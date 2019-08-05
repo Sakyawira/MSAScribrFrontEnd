@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/Button'
-// import Alert from 'react-bootstrap/Alert'
+import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -112,19 +112,23 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
     public handleTableClick = (video:any, timedURL: string) => {
         // scroll the window to the top
-        window.scrollTo(0,260);
+       
         // play video at the specific time
        
         this.props.play(video.webUrl + "&t=" + timedURL + "s")
         
-        this.setState({isCorrect:"Correct!"});
+        this.setState({isCorrect:
+            <Alert variant={'success'}>
+            "Correct!"
+            </Alert>});
+             window.scrollTo(0,520);
     }
 
     public handleTableClickWrong = () => {
         // scroll the window to the top
         window.scrollTo(0,0);
       
-        this.setState({isCorrect:"Wrong!"});
+        this.setState({isCorrect:  <Alert variant={'danger'}>"Wrong!"</Alert>});
     }
 
     // Make a table
@@ -365,15 +369,16 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         <Col xs={12} md={7} lg ={4}>
                         <th>  {this.state.question[2]}</th>
                         </Col>
-
+                        </Row>
                     {/* make a table content */}
-                    <tbody className="feedbackTable">
+                    <Row>
+                    <Col xs={12} md={7} lg ={4}>
                         {/* feedback */}
                         {this.state.isCorrect}
-                    </tbody>
-{/* 
-                </table> */}
+                    </Col>
+
                     </Row>
+                   
                 
             </Container>
             </div>
