@@ -372,7 +372,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         </Row>
                     {/* make a table content */}
                     <Row>
-                    <Col xs={12} md={7} lg ={4}>
+                    <Col xs={12} md={7} lg ={7}>
                         {/* feedback */}
                         {this.state.isCorrect}
                     </Col>

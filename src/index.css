@@ -47,7 +47,8 @@ h2 {
   margin-right: 1pxl;
   margin-bottom: 1pxl;
   margin-top: 1pxl;
-  padding: 30px;
+  /* float: right; */
+  /* padding: 30px; */
 }
 
 .title-heading {
