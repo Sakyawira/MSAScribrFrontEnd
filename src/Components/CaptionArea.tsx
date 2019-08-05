@@ -126,7 +126,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
     public handleTableClickWrong = () => {
         // scroll the window to the top
-        window.scrollTo(0,0);
+        window.scrollTo(0,130);
       
         this.setState({isCorrect:  <Alert variant={'danger'}>"Wrong!"</Alert>});
     }
