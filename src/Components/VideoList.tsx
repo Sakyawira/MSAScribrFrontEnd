@@ -51,10 +51,9 @@ class VideoList extends React.Component<IProps,IState>{
     }
 
     public playVideo = (video:any) => {
-        if (video.isFavourite === true)
-        {
+      
             this.props.play(video.webUrl)
-        }
+       
     }
 
     // update function that fecth the API

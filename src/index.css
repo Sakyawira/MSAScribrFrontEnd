@@ -31,6 +31,17 @@ h1 {
   margin-right: 1pxl;
   margin-bottom: 1pxl;
   margin-top: 1pxl;
+  padding: 30px;
+}
+
+.title-heading {
+  color: rgb(20, 1, 1);
+  font-size: 15px;
+  margin-left: 1pxl;
+  margin-right: 1pxl;
+  margin-bottom: 1pxl;
+  margin-top: 1pxl;
+  padding: 30px;
 }
 
 .play-heading {

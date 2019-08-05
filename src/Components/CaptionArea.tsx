@@ -107,10 +107,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
               "Content-Type": "application/json-patch+json"
             },
             method: "PATCH"
-
-        
           })
-          
     }
 
     public handleTableClick = (video:any, timedURL: string) => {
@@ -190,21 +187,19 @@ export default class CaptionArea extends React.Component<IProps, IState>{
               if (pushedID !== video.videoId && video != null)
               {
                 toRet.push(
-                  
-                    // call the handle table click function on click
-                    <td >
-                       {/* starting time */}
-                        {/* <td>{caption.startTime}</td> */}
-                        {/* the phrase */}
-                        {/* <td>{caption.phrase}</td> */}
-
-                         {/* on click, play video by getting the video url*/}
-                    {/* render the thumbnail of the video */}
-                    <td className="align-left" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
-
-                        {/* the title */}
-                        <td>{video.videoTitle}</td>
-                    </td>)
+                    <table className="table"> 
+                    <tr>
+                     <td >
+                     <td className="title-heading" onClick={() => this.handleTableClick(video,caption.startTime)}><b>{video.videoTitle}</b></td>
+                     <td className="title-heading" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail"/></td>
+ 
+                         {/* the title */}
+                         {/* <td className="table">{video.videoTitle}</td> */}
+                        
+                     </td>
+                     </tr>
+                     </table>
+                    )
               }
               pushedID = video.videoId;
               questionId = video.videoId;
@@ -245,21 +240,18 @@ export default class CaptionArea extends React.Component<IProps, IState>{
               if (pushedID !== video.videoId && video != null)
               {
                 toRet.push(
-                  
-                    // call the handle table click function on click
-                    <td >
-                       {/* starting time */}
-                        {/* <td>{caption.startTime}</td> */}
-                        {/* the phrase */}
-                        {/* <td>{caption.phrase}</td> */}
-
-                         {/* on click, play video by getting the video url*/}
-                    {/* render the thumbnail of the video */}
-                    <td className="align-left"onClick={() => this.handleTableClickWrong()} ><img src={video.thumbnailUrl} width="100px" alt="Thumbnail"/></td>
-                    {/* onClick={() => this.handleTableClick(video,caption.startTime)} */}
-                        {/* the title */}
-                        <td>{video.videoTitle}</td>
-                    </td>
+                    <table className="table"> 
+                    <tr>
+                     <td >
+                     <td className="title-heading" onClick={() => this.handleTableClickWrong()}><b>{video.videoTitle}</b></td>
+                     <td className="title-heading" onClick={() => this.handleTableClickWrong()}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail"/></td>
+ 
+                         {/* the title */}
+                         {/* <td className="table">{video.videoTitle}</td> */}
+                         
+                     </td>
+                     </tr>
+                     </table>
                     )
               }
               pushedID = video.videoId;
@@ -358,14 +350,17 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
                     <Row>
                     {/* make a table */}
-                <table className="table">
+                {/* <table className="table"> */}
+
                        {/* videos*/}
                        <Col xs={12} md={7} lg ={4}>
                         <th>  {this.state.question[0]}</th>
                         </Col>
+
                         <Col xs={12} md={7} lg ={4}>
                         <th>  {this.state.question[1]}</th>
                         </Col>
+
                         <Col xs={12} md={7} lg ={4}>
                         <th>  {this.state.question[2]}</th>
                         </Col>
@@ -375,11 +370,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         {/* feedback */}
                         {this.state.isCorrect}
                     </tbody>
-
-                </table>
+{/* 
+                </table> */}
                     </Row>
-
-               
                 
             </Container>
             </div>
