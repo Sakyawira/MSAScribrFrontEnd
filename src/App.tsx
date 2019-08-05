@@ -271,7 +271,7 @@ class App extends React.Component<{}, IState>{
             />
           </Col>
          
-          <Col xs = {9} md = {7} lg={5}>
+          <Col xs = {12} md = {7} lg={5}>
         
             {/* render the video list */}
             <VideoList addVideo={this.addVideo} play={this.updateURL} mount={this.listMounted} />
