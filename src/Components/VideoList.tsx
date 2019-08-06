@@ -1,20 +1,24 @@
 import Close from '@material-ui/icons/Close'
-import { IconButton } from '@material-ui/core';
+// import { IconButton } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField'
-import AddCircle from '@material-ui/icons/AddCircle'
+// import AddCircle from '@material-ui/icons/AddCircle'
 import Star from '@material-ui/icons/Star'
 import StarBorder from '@material-ui/icons/StarBorder'
 import * as React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 
 
 // Declare an interface that contain video List which is of type any
 interface IState{
-    input:string
-    videoList: any
+    input:string,
+    isLoading: any,
+    isLoadingDel: any,
+    videoList: any,
     
 }
 
@@ -32,13 +36,17 @@ class VideoList extends React.Component<IProps,IState>{
         super(props);
         this.state = {
             input:"",
-            videoList: []
+            isLoading: false,
+            isLoadingDel: false,
+            videoList: [],
         }
         this.updateList();
     }
 
     // delete a video based on its id
     public deleteVideo = (id:any) => {
+        this.setState({isLoadingDel: true});  
+        // this.updateList();
         // fetch("https://sakyaapi.azurewebsites.net/api/Videos/"+id,{
         fetch("https://sakyaapi.azurewebsites.net/api/Videos/"+id,{
             // use the delete method
@@ -46,12 +54,20 @@ class VideoList extends React.Component<IProps,IState>{
             method:'DELETE'
             // if success then run update
         }).then(() => {
+            this.setState({isLoadingDel: false})
+        
+        }).then(() => {
             this.updateList()
         })
+       
     }
 
-    public addVideo = () =>{            
+    public addVideo = () =>{          
+        this.setState({isLoading: true});  
         this.props.addVideo(this.state.input)
+        // .then(() => {
+           
+      //  })
     }
 
     public playVideo = (video:any) => {
@@ -90,7 +106,17 @@ class VideoList extends React.Component<IProps,IState>{
 
                     {/* on click, delete video by getting the video id*/}
                      {/* render the close button */}
-                    <td className="align-middle video-list-close"><button onClick={() => this.deleteVideo(video.videoId)}><Close/></button></td>
+                    <td className="align-middle video-list-close"> <Button
+                            variant="outline-secondary"
+                            size = "sm"
+                            disabled = {this.state.isLoadingDel}
+                            onClick={() => this.deleteVideo(video.videoId)}> {this.state.isLoadingDel ?  <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                                /> : <Close/>} </Button></td>
                 </tr>)
                 // If a video is favourited, put on the top, else push to the back
                 if(video.isFavourite){
@@ -101,6 +127,8 @@ class VideoList extends React.Component<IProps,IState>{
             });
             // Set this to the output
             this.setState({videoList:output})
+            this.setState({isLoading: false}); 
+         
         })
     }
 
@@ -156,10 +184,25 @@ class VideoList extends React.Component<IProps,IState>{
                             onChange = { (event: any ) => this.setState({input:event.target.value})}
                             value = {this.state.input}
                             InputProps={{
-                                endAdornment: <InputAdornment  position="end" variant="standard">
-                                    <IconButton edge = "end" onClick={this.addVideo} size ="small">
+                                endAdornment: <InputAdornment  position="start" variant="outlined">
+                                    {/* <IconButton edge = "end" onClick={this.addVideo} size ="small">
                                         <AddCircle color = "action" fontSize = "small"/>
-                                    </IconButton>
+                                    </IconButton> */}
+                             <Button
+                            variant="outline-danger"
+                            size = "sm"
+                            disabled = {this.state.isLoading}
+                            onClick={() => this.addVideo()}
+                            >
+                            {this.state.isLoading ?  <Spinner
+                                as="span"
+                                animation="grow"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                                /> : '+'}
+                               
+                            </Button>
                                 </InputAdornment>,
                             }}
                             />
