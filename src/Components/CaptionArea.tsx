@@ -20,6 +20,7 @@ import * as React from 'react'
 interface IState {
     input: string,
     isCorrect:any,
+    isFirst:any,
     isLoading: any,
     result: any,
     body:any,
@@ -41,10 +42,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             body: [],
             input: "",
             isCorrect:"",
+            isFirst: true,
             isLoading: false,
             question: [],
             result: [],
-           wrongResult: [],
+            wrongResult: [],
          
         }
     }
@@ -56,6 +58,17 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     // Handle search of caption/transcription
     public search = () => 
     {
+        let inumber: number = 0;
+        let runnumber : number = 2;
+
+        if (this.state.isFirst === false)
+        {
+            runnumber = 1;
+        }
+
+        while (inumber < runnumber)
+        {
+      
         this.setState({isLoading: true});
         window.scrollTo(0,0);
     
@@ -94,7 +107,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                 this.setState({result:answer},()=>this.makeTableBody())
                 
             })
-
+            inumber += 1;
+        }
           
     }
 
@@ -284,7 +298,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             
           //  this.setState({question: ourQ});
         }
-        this.setState({isLoading: false});
+        if (this.state.isFirst === false)
+        {
+            this.setState({isLoading: false});
+        }
+        this.setState({isFirst: false});
     }
 
     public shuffleInPlace<T>(array: T[]): T[] {
