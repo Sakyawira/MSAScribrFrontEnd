@@ -16,6 +16,7 @@ import Col from 'react-bootstrap/Col'
 
 
 interface IState {
+  hubConnection: any,
   updateVideoList: any,
   player: any,
   playingURL: string
@@ -23,15 +24,30 @@ interface IState {
 }
 
 class App extends React.Component<{}, IState>{
+  public signalR = require("@aspnet/signalr");
   public constructor(props: any) {
     super(props);
     this.state = {
+      hubConnection: new this.signalR.HubConnectionBuilder().withUrl("https://sakyaapi.azurewebsites.net/hub").build(),
       player: null,
       playingURL: "",
       updateVideoList: null,
       videoList: [],
     }
   }
+
+  public componentDidMount = () => {
+    this.state.hubConnection.on("Connect", ()  => {
+      console.log('A new user has connected to the hub.');
+    });
+
+    this.state.hubConnection.on("UpdateVideoList", ()  => {
+      this.state.updateVideoList();
+      console.log('A new video has been added!');
+  });
+
+    this.state.hubConnection.start().then(() => this.state.hubConnection.invoke("BroadcastMessage"));
+}
 
   public setRef = (playerRef: any) => {
     this.setState({
