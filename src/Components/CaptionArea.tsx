@@ -52,20 +52,12 @@ export default class CaptionArea extends React.Component<IProps, IState>{
          // make a reference that allows App.tsx to access updateList from video.tsx
   public listMounted = (callbacks: any) => {
  //   this.setState({ updateVideoList: callbacks })
-  }
+ }
     // Handle search of caption/transcription
     public search = () => {
         this.setState({isLoading: true});
         window.scrollTo(0,0);
-        // if the input of the search is empty
-        // if(this.state.input.trim() === "")
-        // {
-        //     // convert the result to a table
-        //     this.setState({result:[]},()=>this.makeTableBody())
-        // }
-        // else call the api and run the search by transcription function
-      //  else
-      //  {
+    
         this.setState({isCorrect:""});
         // Get Random transcription and change its like value
             fetch("https://sakyaapi.azurewebsites.net/api/Transcriptions/GetRandomTranscription", {
@@ -82,12 +74,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             // convert the result to a table
             }).then(answer => {
                 this.setState({result:answer},()=>this.makeTableBody())
-               // this.setState({})
                 
             })
-
-           // videolist.updateList();
-       //  this.state.updateVideoList();
     }
 
     public makeLike = (video:any) => {
@@ -136,61 +124,43 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         let questionId: any = 0;
         const toRet: any[] = [];
         const toRet2: any[] = [];
-        // this.state.result.sort((a:any, b:any)=>{
-        //     // if a is the same as b, keep the order
-        //     if(a.webUrl === b.webUrl)
-        //     {
-        //         return 0;
-        //     }
-        //      // if a is the playing video, a is first
-        //     else if(a.webUrl === this.props.currentVideo)
-        //     {
-        //         return -1;
-        //     }
-        //     // if b is the playing video, b is first
-        //     else if(b.webUrl === this.props.currentVideo)
-        //     {
-        //         return 1;
-        //     }
-        //     // return alphabetically
-        //     else
-        //     {
-        //         return a.videoTitle.localeCompare(b.videoTitle);
-        //     }
-        // })
-        // for each video
         
-        this.state.result.forEach((video: any) => {
+        this.state.result.forEach((video: any) =>
+        {
             let pushedID: any;
-           // this.makeLike(video);
-            // this.handleLike(video);
             // for each video's transcription
-            video.transcription.forEach((caption: any) => {
-                // make a table row for each transcription (caption)
-              //  var a = 0;
-              if (pushedID !== video.videoId && video != null)
-              {
-                toRet2.push(
-                    // Push the caption into an array
-                    <td className="align-left">
-                        <td>{caption.phrase}</td>
-                    </td>)
-              }
+            video.transcription.forEach((caption: any) => 
+            {
+                 // make a table row for each transcription (caption)
+
+                // if pushedID (the id of the video that has just been pushed) is not equal to the current video's id
+                // the video is null
+                if (pushedID !== video.videoId && video != null)
+                {
+                    toRet2.push
+                    (
+                        // Push the caption into an array
+                        <td className="align-left">
+                            <td>{caption.phrase}</td>
+                        </td>
+                    )
+                }
               pushedID = video.videoId;
             })
         });
 
-        this.state.result.forEach((video: any) => {
+        this.state.result.forEach((video: any) => 
+        {
             let pushedID: any;
-          //  this.makeLike(video);
-            // this.handleLike(video);
             // for each video's transcription
             video.transcription.forEach((caption: any) => {
-                // make a table row for each transcription (caption)
-              //  var a = 0;
-              if (pushedID !== video.videoId && video != null)
-              {
-                toRet.push(
+
+            // make a table row for each transcription (caption)
+            // if pushedID (the id of the video that has just been pushed) is not equal to the current video's id
+            if (pushedID !== video.videoId && video != null)
+            {
+                toRet.push
+                (
                     <table className="table"> 
                     <tr>
                      <td >
@@ -203,15 +173,19 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                      </td>
                      </tr>
                      </table>
-                    )
-              }
+                )
+            }
               pushedID = video.videoId;
+              // Set the question id to the one pushed last
               questionId = video.videoId;
             })
         });
-        let currentId : any = questionId;
+
+        // declare and set the currentID to the questionID
+        let currentId : any = 0; // questionId;
+
       //  while (currentId === questionId)
-        {
+        
         fetch("https://sakyaapi.azurewebsites.net/api/Videos/GetRandomVideo", {
             headers: {
               Accept: "text/plain"
@@ -226,21 +200,25 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         // convert the result to a table
         }).then(answer => {
             this.setState({wrongResult:answer})
-           // this.setState({})
-         // currentId = this.state.wrongResult.Videos[0].videoId
-        })
-    }
-        this.state.wrongResult.forEach((video: any) => {
-           currentId = video.videoId;
+        });
+        // .then(() =>
+        // {
+    
+         console.log(toRet);
+        // runs up to here
+    
+        this.state.wrongResult.forEach((video: any) => 
+        {
+            currentId = video.videoId;
             if (currentId !== questionId)
         {
-            let pushedID: any = 0;
-           // this.makeLike(video);
-            // this.handleLike(video);
+           
+            let pushedID: any;
+
             // for each video's transcription
             video.transcription.forEach((caption: any) => {
                 // make a table row for each transcription (caption)
-              //  var a = 0;
+                
               if (pushedID !== video.videoId && video != null)
               {
                 toRet.push(
@@ -259,27 +237,31 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                      </table>
                     )
               }
+              
               pushedID = video.videoId;
             })
         }
         });
+    // });
 
         // if the length of the table row is 0
-        if (toRet.length === 0) 
+        if (toRet.length === 1) 
         {
             // if the input was empty
-            if(this.state.input.trim() === "")
-            {
-                const errorCase = <div><p>Sorry you need to still search</p></div>
-                // make body into error case
-                this.setState({body:errorCase})
-            }
-            else
-            {
-                const errorCase = <div><p>Sorry no results were returned for "{this.state.input}"</p></div>
-                 // make body into error case
-                this.setState({body:errorCase})
-            } 
+            // if(this.state.input.trim() === "")
+            // {
+            //     const errorCase = <div><p>Sorry you need to still search</p></div>
+            //     // make body into error case
+            //     this.setState({body:errorCase})
+            // }
+            // else
+            // {
+            //     const errorCase = <div><p>Sorry no results were returned for "{this.state.input}"</p></div>
+            //      // make body into error case
+            //     this.setState({body:errorCase})
+            // } 
+            // this.makeTableBody();
+           // console.log(toRet);
         }
         else
         {
@@ -298,6 +280,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         }
         this.setState({isLoading: false});
     }
+
     public shuffleInPlace<T>(array: T[]): T[] {
         for (let i = array.length - 1; i > 0; i--) {
 	    	const j = Math.floor(Math.random() * (i + 1));
