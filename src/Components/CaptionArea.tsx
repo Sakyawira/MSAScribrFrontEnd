@@ -54,11 +54,29 @@ export default class CaptionArea extends React.Component<IProps, IState>{
  //   this.setState({ updateVideoList: callbacks })
  }
     // Handle search of caption/transcription
-    public search = () => {
+    public search = () => 
+    {
         this.setState({isLoading: true});
         window.scrollTo(0,0);
     
         this.setState({isCorrect:""});
+
+        fetch("https://sakyaapi.azurewebsites.net/api/Videos/GetRandomVideo", {
+            headers: {
+              Accept: "text/plain"
+            },
+            method:"GET"
+
+        // convert the response to json
+        }).then(response => {
+            
+            return response.json()
+            
+        // convert the result to a table
+        }).then(answer => {
+            this.setState({wrongResult:answer})
+        })
+
         // Get Random transcription and change its like value
             fetch("https://sakyaapi.azurewebsites.net/api/Transcriptions/GetRandomTranscription", {
                 headers: {
@@ -76,6 +94,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                 this.setState({result:answer},()=>this.makeTableBody())
                 
             })
+
+          
     }
 
     public makeLike = (video:any) => {
@@ -186,21 +206,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
       //  while (currentId === questionId)
         
-        fetch("https://sakyaapi.azurewebsites.net/api/Videos/GetRandomVideo", {
-            headers: {
-              Accept: "text/plain"
-            },
-            method:"GET"
-
-        // convert the response to json
-        }).then(response => {
-            
-            return response.json()
-            
-        // convert the result to a table
-        }).then(answer => {
-            this.setState({wrongResult:answer})
-        });
+      
         // .then(() =>
         // {
     
