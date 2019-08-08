@@ -72,7 +72,7 @@ class App extends React.Component<{}, IState>{
       // call the updateVideoList which calls the updateVideo function in VideoList.tsx
     }).then(() => {
       this.state.updateVideoList();
-    })
+    }).then(() => {this.state.hubConnection.invoke("VideoAdded")});
   }
 
   // update the URL to change the video we are playing
@@ -290,7 +290,7 @@ class App extends React.Component<{}, IState>{
           <Col xs = {12} md = {7} lg={5}>
         
             {/* render the video list */}
-            <VideoList addVideo={this.addVideo} play={this.updateURL} mount={this.listMounted} />
+            <VideoList addVideo={this.addVideo} play={this.updateURL} mount={this.listMounted} hubConnection={this.state.hubConnection} />
   
           </Col>
           </Row>

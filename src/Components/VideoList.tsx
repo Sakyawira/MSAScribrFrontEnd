@@ -11,13 +11,14 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-
+import Icon from '@material-ui/core/Icon';
 
 // Declare an interface that contain video List which is of type any
 interface IState{
     input:string,
     isLoading: any,
     isLoadingDel: any,
+    usersCountCurrent: any,
     videoList: any,
     
 }
@@ -25,6 +26,7 @@ interface IState{
 // Declare an interface that contain function mount and play which is of type any
 interface IProps{
     addVideo:any,
+    hubConnection:any,
     mount:any
     play:any
 }
@@ -38,11 +40,26 @@ class VideoList extends React.Component<IProps,IState>{
             input:"",
             isLoading: false,
             isLoadingDel: false,
+            usersCountCurrent: 0,
             videoList: [],
         }
         this.updateList();
     }
+    public componentDidMount = () => {
+        this.props.mount(this.updateList)
+        this.updateList()
 
+        this.props.hubConnection.on("VideoDeleted", ()  => {
+            this.updateList();
+            console.log('A video has been deleted.');
+        });
+
+        this.props.hubConnection.on("ShowUserCounts", (usersCount: any)  => {
+            console.log(usersCount);
+            this.setState({usersCountCurrent:usersCount});
+        });
+
+    }
     // delete a video based on its id
     public deleteVideo = (id:any) => {
         this.setState({isLoadingDel: true});  
@@ -156,23 +173,22 @@ class VideoList extends React.Component<IProps,IState>{
               this.updateList();
           })
     }
-    
-    // mounting the updateList so App.tsx can use it
-    public componentDidMount = () => {
-        this.props.mount(this.updateList)
-        this.updateList()
-    }
 
 
     // Render method
     public render() {
+        const style = { 
+            display: 'inline-flex',
+            fontSize: 25,
+            verticalAlign: 'middle',}
         return (
+            
             <div className="video-list">
                  <Container>
                   
               
                 <Row>
-                <h1 className="play-heading"><span className="red-heading">video</span>List</h1>
+                <h1 className="play-heading"><span className="red-heading">video</span>List<span style={style}><Icon color='primary' fontSize='large'>person</Icon><b>{this.state.usersCountCurrent}</b></span></h1>
                 <Col>
                     
                             <TextField
