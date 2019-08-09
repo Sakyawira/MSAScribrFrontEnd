@@ -11,7 +11,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import Icon from '@material-ui/core/Icon';
 
 // Declare an interface that contain video List which is of type any
 interface IState{
@@ -75,7 +74,7 @@ class VideoList extends React.Component<IProps,IState>{
         
         }).then(() => {
             this.updateList()
-        })
+        }).then(() => {this.props.hubConnection.invoke("DeleteVideo")});
        
     }
 
@@ -177,10 +176,7 @@ class VideoList extends React.Component<IProps,IState>{
 
     // Render method
     public render() {
-        const style = { 
-            display: 'inline-flex',
-            fontSize: 25,
-            verticalAlign: 'middle',}
+     
         return (
             
             <div className="video-list">
@@ -188,7 +184,7 @@ class VideoList extends React.Component<IProps,IState>{
                   
               
                 <Row>
-                <h1 className="play-heading"><span className="red-heading">video</span>List<span style={style}><Icon color='primary' fontSize='large'>person</Icon><b>{this.state.usersCountCurrent}</b></span></h1>
+                <h1 className="play-heading"><span className="red-heading">video</span>List</h1>
                 <Col>
                     
                             <TextField

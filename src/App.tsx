@@ -11,13 +11,15 @@ import 'src/App.css'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+// import Icon from '@material-ui/core/Icon';
 
-
-
+import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
 
 interface IState {
   hubConnection: any,
   updateVideoList: any,
+  usersCountCurrent: any,
   player: any,
   playingURL: string
   videoList: object
@@ -32,22 +34,12 @@ class App extends React.Component<{}, IState>{
       player: null,
       playingURL: "",
       updateVideoList: null,
+      usersCountCurrent: 0,
       videoList: [],
     }
   }
 
-  public componentDidMount = () => {
-    this.state.hubConnection.on("Connect", ()  => {
-      console.log('A new user has connected to the hub.');
-    });
-
-    this.state.hubConnection.on("UpdateVideoList", ()  => {
-      this.state.updateVideoList();
-      console.log('A new video has been added!');
-  });
-
-    this.state.hubConnection.start().then(() => this.state.hubConnection.invoke("BroadcastMessage"));
-}
+ 
 
   public setRef = (playerRef: any) => {
     this.setState({
@@ -94,7 +86,29 @@ class App extends React.Component<{}, IState>{
     this.setState({ updateVideoList: callbacks })
   }
 
+  public componentDidMount = () => {
+    this.state.hubConnection.on("Connect", ()  => {
+      console.log('A new user has connected to the hub.');
+    });
+
+    this.state.hubConnection.on("UpdateVideoList", ()  => {
+      this.state.updateVideoList();
+      console.log('A new video has been added!');
+  });
+  this.state.hubConnection.on("ShowUserCounts", (usersCount: any)  => {
+    console.log(usersCount);
+    this.setState({usersCountCurrent:usersCount});
+});
+
+
+    this.state.hubConnection.start().then(() => this.state.hubConnection.invoke("BroadcastMessage"));
+}
   public render() {
+
+    const style = { 
+      display: 'inline-flex',
+      fontSize: 25,
+      verticalAlign: 'middle',}
     return (
     
     <div>
@@ -256,6 +270,14 @@ class App extends React.Component<{}, IState>{
       {/* call the addVideo function */}
       <Header addVideo={this.addVideo} />
         {/* render the caption area */}
+       
+        <Button 
+        variant="link" 
+        size="sm" 
+        disabled = {true}>  
+        <Badge pill = {true} variant="success"> . </Badge>
+        <span style={style}><b>{this.state.usersCountCurrent} online</b></span> 
+        </Button>
         
         {/* <div className="col-26"> */}
         <Container>
