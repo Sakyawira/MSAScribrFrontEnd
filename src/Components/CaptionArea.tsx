@@ -23,16 +23,17 @@ interface IState {
     isFirst:any,
     isLoading: any,
     result: any,
+    scrollY: any,
     body:any,
     question:any,
     wrongResult: any,
+
    
 }
 
 interface IProps {
     currentVideo:any,
-    play: any
-   
+    play: any,
 }
 
 export default class CaptionArea extends React.Component<IProps, IState>{
@@ -46,8 +47,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             isLoading: false,
             question: [],
             result: [],
+            scrollY : 0,
             wrongResult: [],
-         
         }
     }
   
@@ -70,9 +71,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         {
       
         this.setState({isLoading: true});
-        window.scrollTo(0,0);
-    
-        this.setState({isCorrect:""});
+        // window.scrollTo(0,0);
+        
+       
 
         fetch("https://sakyaapi.azurewebsites.net/api/Videos/GetRandomVideo", {
             headers: {
@@ -109,7 +110,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             })
             inumber += 1;
         }
-          
+        this.setState({isCorrect:""});
+        this.setState({scrollY:0});
     }
 
     public makeLike = (video:any) => {
@@ -138,18 +140,23 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         // play video at the specific time
        
         this.props.play(video.webUrl + "&t=" + timedURL + "s")
-        
-        this.setState({isCorrect:
+        window.scrollTo(0,0);
+
+        this.setState({
+            isCorrect:
             <Alert variant={'success'}>
             "Correct!"
-            </Alert>});
-             window.scrollTo(0,520);
+            </Alert>
+            });
+
+            this.setState({scrollY:1600});
+           //  window.scrollTo(0,1080);
     }
 
     public handleTableClickWrong = () => {
         // scroll the window to the top
-        window.scrollTo(0,130);
-      
+      //  window.scrollTo(0,0);
+        this.setState({scrollY:0});
         this.setState({isCorrect:  <Alert variant={'danger'}>"Wrong!"</Alert>});
     }
 
@@ -318,8 +325,12 @@ export default class CaptionArea extends React.Component<IProps, IState>{
      
     public render() {
         return (
+           
             <div className = "caption-area">
+                 { window.scrollTo(0,0)}
             <Container>
+          
+                
                 {/* <div className="row"> */}
                     {/* <div className="col-26 "> */}
                     <Row>
@@ -382,13 +393,16 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     <Col xs={12} md={7} lg ={7}>
                         {/* feedback */}
                         {this.state.isCorrect}
+                       
                     </Col>
 
                     </Row>
                    
-                
+                   
             </Container>
+            { window.scrollTo(0,this.state.scrollY)}
             </div>
+            
         )
     }
 }
