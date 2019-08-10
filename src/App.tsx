@@ -172,22 +172,25 @@ public makeTableBody = () => {
 
     // a function to add the video, which accepts a string called url
   public addVideo = (url: string) => {
-    // const body = {"url": url}
-    // fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
-    //      //  fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
-    //   // convert body to a string and put it into a json file
-    //   body: JSON.stringify(body),
-    //   headers: {
-    //     Accept: "text/plain",
-    //     "Content-Type": "application/json"
-    //   },
-    //   // use POST method to send content to the API
-    //   method: "POST"
+    const body = {"playerName": url, "score":this.state.score} 
+   
 
-    //   // call the updateVideoList which calls the updateVideo function in VideoList.tsx
-    // }).then(() => {
-    //   this.state.updateVideoList();
-    // }).then(() => {this.state.hubConnection.invoke("VideoAdded")});
+    fetch("https://sakyaapi.azurewebsites.net/api/LeaderBoards", {
+         //  fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
+      // convert body to a string and put it into a json file
+      body: JSON.stringify(body),
+      
+      headers: {
+        Accept: "text/plain",
+        "Content-Type": "application/json"
+      },
+      // use POST method to send content to the API
+      method: "POST"
+
+      // call the updateVideoList which calls the updateVideo function in VideoList.tsx
+    }).then(() => {
+      this.state.updateVideoList();
+    }).then(() => {this.state.hubConnection.invoke("VideoAdded")});
     this.search();
   }
 

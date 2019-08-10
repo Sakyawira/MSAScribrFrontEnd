@@ -33,14 +33,14 @@ export default class Header extends React.Component<IProps,IState> {
             <div className="header">
                 <Container>
                     <Row>
-                        <Col xs={12} md={12} lg ={5}>
-                            <h2><span className="red-heading2">Guess</span>The Lyric</h2>
+                        <Col xs={12} md={12} lg ={3}>
+                            <h2><span className="red-heading2">Guess</span>The Song</h2>
                         </Col>        
-                        <Col xs={12} md={12} lg ={7}>
+                        <Col xs={12} md={12} lg ={9}>
                             <TextField
                             id= "Search-Bar"
                             className = "SearchBar"
-                            placeholder="Add Video Url"
+                            placeholder="Enter your name"
                             margin="normal"
                             variant="outlined"
                             onChange = { (event: any ) => this.setState({input:event.target.value})}
