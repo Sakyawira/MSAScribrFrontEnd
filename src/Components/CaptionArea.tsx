@@ -22,7 +22,9 @@ interface IState {
     isCorrect:any,
     isFirst:any,
     isLoading: any,
+    lives: any,
     result: any,
+    score : any,
     scrollY: any,
     body:any,
     question:any,
@@ -33,7 +35,9 @@ interface IState {
 
 interface IProps {
     currentVideo:any,
+    iScore: any,
     play: any,
+ 
 }
 
 export default class CaptionArea extends React.Component<IProps, IState>{
@@ -45,8 +49,10 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             isCorrect:"",
             isFirst: true,
             isLoading: false,
+            lives: 3,
             question: [],
             result: [],
+            score : 0,
             scrollY : 0,
             wrongResult: [],
         }
@@ -140,7 +146,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         // play video at the specific time
        
         this.props.play(video.webUrl + "&t=" + timedURL + "s")
-        window.scrollTo(0,0);
+        // window.scrollTo(0,0);
 
         this.setState({
             isCorrect:
@@ -148,14 +154,19 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             "Correct!"
             </Alert>
             });
-
-            this.setState({scrollY:1600});
+        
+        this.setState({score : this.state.score + 100});
+        
+      this.props.iScore(this.state.score);
+      //  console.log(this.props.iScore);
+            this.setState({scrollY:1800});
            //  window.scrollTo(0,1080);
     }
 
     public handleTableClickWrong = () => {
         // scroll the window to the top
       //  window.scrollTo(0,0);
+      this.setState({lives : this.state.lives - 1});
         this.setState({scrollY:0});
         this.setState({isCorrect:  <Alert variant={'danger'}>"Wrong!"</Alert>});
     }

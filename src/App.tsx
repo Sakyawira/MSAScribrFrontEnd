@@ -18,10 +18,11 @@ import Button from 'react-bootstrap/Button'
 
 interface IState {
   hubConnection: any,
-  updateVideoList: any,
-  usersCountCurrent: any,
   player: any,
   playingURL: string
+  score: number,
+  updateVideoList: any,
+  usersCountCurrent: any,
   videoList: object
 }
 
@@ -31,8 +32,10 @@ class App extends React.Component<{}, IState>{
     super(props);
     this.state = {
       hubConnection: new this.signalR.HubConnectionBuilder().withUrl("https://sakyaapi.azurewebsites.net/hub").build(),
+
       player: null,
       playingURL: "",
+      score : 0,
       updateVideoList: null,
       usersCountCurrent: 0,
       videoList: [],
@@ -79,6 +82,11 @@ class App extends React.Component<{}, IState>{
       // else set the playing url to url
       this.setState({playingURL:url})
     }
+  }
+
+  public updateScore = (iScore : number) =>{
+    this.setState({score: iScore});
+    console.log(this.state.score);
   }
 
   // make a reference that allows App.tsx to access updateList from video.tsx
@@ -270,7 +278,7 @@ class App extends React.Component<{}, IState>{
       {/* call the addVideo function */}
       <Header addVideo={this.addVideo} />
         {/* render the caption area */}
-       
+
         <Button 
         variant="link" 
         size="sm" 
@@ -285,7 +293,7 @@ class App extends React.Component<{}, IState>{
   <Row>
     <Col xs={12} md={12} lg ={12}>
       {/* <div className="container" > */}
-      <CaptionArea currentVideo={this.state.playingURL} play={this.updateURL} />
+      <CaptionArea iScore = {this.updateScore} currentVideo={this.state.playingURL} play={this.updateURL} />
         {/* <div className="row"> */}
         <Row>
           <Col xs = {12} md = {5} lg={7}>
