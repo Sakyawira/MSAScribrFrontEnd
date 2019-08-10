@@ -174,7 +174,6 @@ public makeTableBody = () => {
   public addVideo = (url: string) => {
     const body = {"playerName": url, "score":this.state.score} 
    
-
     fetch("https://sakyaapi.azurewebsites.net/api/LeaderBoards", {
          //  fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
       // convert body to a string and put it into a json file
@@ -189,9 +188,9 @@ public makeTableBody = () => {
 
       // call the updateVideoList which calls the updateVideo function in VideoList.tsx
     }).then(() => {
-      this.state.updateVideoList();
+      this.search();
     }).then(() => {this.state.hubConnection.invoke("VideoAdded")});
-    this.search();
+    
   }
 
   // update the URL to change the video we are playing
