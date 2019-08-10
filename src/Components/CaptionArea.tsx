@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/Button'
-import Alert from 'react-bootstrap/Alert'
+// import Alert from 'react-bootstrap/Alert'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -124,10 +124,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             })
             inumber += 1;
         }
-        this.setState({isCorrect: 
-        <Alert variant={'secondary'}>
-        "Click the right video!"
-        </Alert>});
+        this.setState({isCorrect: ""
+        // <Button variant={'secondary'} size = "sm" disabled ={true}>
+        // "Click the right video!"
+        // </Button>
+    }    );
         this.setState({scrollY:0});
     }
 
@@ -155,21 +156,23 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         // scroll the window to the top
        
         // play video at the specific time
-       if (this.state.isNewQuest === true)
+       if (this.state.isNewQuest === true && this.state.lives !== 0)
        {
         this.props.play(video.webUrl + "&t=" + timedURL + "s")
         // window.scrollTo(0,0);
 
         this.setState({
             isCorrect:
-            <Alert variant={'success'}>
+            <Button variant= {'outline-success'}  size = "sm" disabled ={true}>
             "Correct!"
-            </Alert>
+            </Button>
             });
         
         // this.setState((state) => ({score : state.score + 100}));
 
        this.setState(state =>  ({score : state.score + 100}));
+     //  this.forceUpdate();
+      // this.search();
            console.log(this.state.score);
 
       //   this.props.iScore(this.state.score);
@@ -177,14 +180,25 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         this.setState({scrollY:1800});
 
         this.setState({isNewQuest:false});
+
+        // this.search();
+       }
+       else if (this.state.lives === 0)
+       {
+         this.setState({
+             isCorrect:
+             <Button variant= {'outline-danger'}  size = "sm" disabled ={true}> ""You have run out of lives! Reload to play again!""</Button>
+             
+            
+             });
        }
        else
        {
         this.setState({
             isCorrect:
-            <Alert variant={'secondary'}>
-            "Press the 'Get New Question' button!"
-            </Alert>
+            <Button variant={'outline-secondary'} size = "sm" disabled ={true}>
+            Click here =>
+            </Button>
             });
        }
            //  window.scrollTo(0,1080);
@@ -199,7 +213,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
      // this.setState({lives : this.state.lives - 1});
         this.setState({scrollY:0});
-        this.setState({isCorrect:  <Alert variant={'danger'}>"Wrong!"</Alert>});
+        this.setState({isCorrect:  <Button variant= {'outline-danger'}  size = "sm" disabled ={true}> "Wrong!"</Button>});
 
        
        this.setState(state =>  ({lives : state.lives - 1}));
@@ -212,9 +226,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
       {
         this.setState({
             isCorrect:
-            <Alert variant={'secondary'}>
-            "You have run out of lives! Reload to play again!"
-            </Alert>
+            <Button variant= {'outline-danger'}  size = "sm" disabled ={true}> ""You have run out of lives! Reload to play again!""</Button>
+            
+           
             });
       }
 
@@ -222,9 +236,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
       {
        this.setState({
            isCorrect:
-           <Alert variant={'secondary'}>
-           "Press the 'Get New Question' button!"
-           </Alert>
+           <Button variant={'outline-secondary'} size = "sm" disabled ={true}>
+           Click here =>
+           </Button>
            });
       }
     }
@@ -404,12 +418,17 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                 {/* <div className="row"> */}
                     {/* <div className="col-26 "> */}
                     <Row>
-                        <Col xs={12} md={7} lg ={10}>
+                        <Col xs={12} md={7} lg ={8}>
                         <h1 ><span className="lyric-heading">Which song contains these</span> {this.state.body}</h1>
                         {/* <h1 ><span className="lyric-heading"></span></h1> */}
                        
                         </Col>
 
+                        <Col xs={12} md={7} lg ={2}>
+                        {this.state.isCorrect}
+                        {/* <h1 ><span className="lyric-heading"></span></h1> */}
+                       
+                        </Col>
                        
                         <Col xs={12} md={5} lg ={2}>
                       {/* question */}
@@ -462,7 +481,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     <Row>
                     <Col xs={12} md={7} lg ={7}>
                         {/* feedback */}
-                        {this.state.isLoading ? 'Loading…' : this.state.isCorrect}
+                    
                         
                        
                     </Col>

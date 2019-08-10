@@ -329,7 +329,7 @@ class App extends React.Component<{}, IState>{
               // a state to know what video is currently playing
               url={this.state.playingURL}
               width="100%"
-              height="400px"
+              height="390px"
               playing={true}
               config={{
                 youtube: {

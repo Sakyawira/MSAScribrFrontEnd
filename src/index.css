@@ -80,7 +80,7 @@ h2 {
   background-color: #F5F5F5;
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 400px;
+  height: 390px;
 }
 
 .video-list button {
@@ -113,6 +113,8 @@ h2 {
 }
 
 .alert {
-  padding: 13px; 
+  padding: 7px; 
+  width: 260px;
+  height: 39px;
 }
 
