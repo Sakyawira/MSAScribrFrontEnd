@@ -22,6 +22,7 @@ interface IState {
     isCorrect:any,
     isFirst:any,
     isLoading: any,
+    isNewQuest: any,
     lives: any,
     result: any,
     score : any,
@@ -36,6 +37,7 @@ interface IState {
 interface IProps {
     currentVideo:any,
     iScore: any,
+    iLives: any,
     play: any,
  
 }
@@ -49,6 +51,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             isCorrect:"",
             isFirst: true,
             isLoading: false,
+            isNewQuest: true,
             lives: 3,
             question: [],
             result: [],
@@ -65,6 +68,11 @@ export default class CaptionArea extends React.Component<IProps, IState>{
     // Handle search of caption/transcription
     public search = () => 
     {
+      //  this.setState(state =>  ({score : state.score + 100}));
+        this.props.iScore(this.state.score);
+        this.props.iLives(this.state.lives);
+
+        console.log(this.state.score);
         let inumber: number = 0;
         let runnumber : number = 2;
 
@@ -75,7 +83,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
         while (inumber < runnumber)
         {
-      
+        this.setState({isNewQuest:true});
         this.setState({isLoading: true});
         // window.scrollTo(0,0);
         
@@ -116,7 +124,10 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             })
             inumber += 1;
         }
-        this.setState({isCorrect:""});
+        this.setState({isCorrect: 
+        <Alert variant={'secondary'}>
+        "Click the right video!"
+        </Alert>});
         this.setState({scrollY:0});
     }
 
@@ -144,7 +155,8 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         // scroll the window to the top
        
         // play video at the specific time
-       
+       if (this.state.isNewQuest === true)
+       {
         this.props.play(video.webUrl + "&t=" + timedURL + "s")
         // window.scrollTo(0,0);
 
@@ -155,20 +167,66 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             </Alert>
             });
         
-        this.setState({score : this.state.score + 100});
-        
-      this.props.iScore(this.state.score);
-      //  console.log(this.props.iScore);
-            this.setState({scrollY:1800});
+        // this.setState((state) => ({score : state.score + 100}));
+
+       this.setState(state =>  ({score : state.score + 100}));
+           console.log(this.state.score);
+
+      //   this.props.iScore(this.state.score);
+     
+        this.setState({scrollY:1800});
+
+        this.setState({isNewQuest:false});
+       }
+       else
+       {
+        this.setState({
+            isCorrect:
+            <Alert variant={'secondary'}>
+            "Press the 'Get New Question' button!"
+            </Alert>
+            });
+       }
            //  window.scrollTo(0,1080);
     }
 
     public handleTableClickWrong = () => {
         // scroll the window to the top
       //  window.scrollTo(0,0);
-      this.setState({lives : this.state.lives - 1});
+      if (this.state.isNewQuest === true && this.state.lives !== 0)
+      {
+      this.setState({isNewQuest:false});
+
+     // this.setState({lives : this.state.lives - 1});
         this.setState({scrollY:0});
         this.setState({isCorrect:  <Alert variant={'danger'}>"Wrong!"</Alert>});
+
+       
+       this.setState(state =>  ({lives : state.lives - 1}));
+        
+        
+        console.log(this.state.score);
+      }
+
+      else if (this.state.lives === 0)
+      {
+        this.setState({
+            isCorrect:
+            <Alert variant={'secondary'}>
+            "You have run out of lives! Reload to play again!"
+            </Alert>
+            });
+      }
+
+      else
+      {
+       this.setState({
+           isCorrect:
+           <Alert variant={'secondary'}>
+           "Press the 'Get New Question' button!"
+           </Alert>
+           });
+      }
     }
 
     // Make a table
@@ -335,6 +393,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
       
      
     public render() {
+       
         return (
            
             <div className = "caption-area">
@@ -382,9 +441,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                      {/* </tbody> */}
                     </Row>
 
-                    <Row>
-                    {/* make a table */}
-                {/* <table className="table"> */}
+                <Row>
+                     {/* make a table */}
+                     {/* <table className="table"> */}
 
                        {/* videos*/}
                        <Col xs={12} md={7} lg ={4}>
@@ -398,20 +457,21 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         <Col xs={12} md={7} lg ={4}>
                         <th>  {this.state.question[2]}</th>
                         </Col>
-                        </Row>
+                 </Row>
                     {/* make a table content */}
                     <Row>
                     <Col xs={12} md={7} lg ={7}>
                         {/* feedback */}
-                        {this.state.isCorrect}
+                        {this.state.isLoading ? 'Loading…' : this.state.isCorrect}
+                        
                        
                     </Col>
-
+                    { window.scrollBy(0,this.state.scrollY)}
                     </Row>
                    
                    
             </Container>
-            { window.scrollTo(0,this.state.scrollY)}
+            
             </div>
             
         )

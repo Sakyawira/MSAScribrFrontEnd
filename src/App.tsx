@@ -18,12 +18,13 @@ import Button from 'react-bootstrap/Button'
 
 interface IState {
   hubConnection: any,
+  lives: any,
   player: any,
   playingURL: string
   score: number,
   updateVideoList: any,
   usersCountCurrent: any,
-  videoList: object
+  videoList: object,
 }
 
 class App extends React.Component<{}, IState>{
@@ -32,7 +33,7 @@ class App extends React.Component<{}, IState>{
     super(props);
     this.state = {
       hubConnection: new this.signalR.HubConnectionBuilder().withUrl("https://sakyaapi.azurewebsites.net/hub").build(),
-
+      lives : 3,
       player: null,
       playingURL: "",
       score : 0,
@@ -87,6 +88,13 @@ class App extends React.Component<{}, IState>{
   public updateScore = (iScore : number) =>{
     this.setState({score: iScore});
     console.log(this.state.score);
+    
+  }
+
+  public updateLives = (iLives : number) =>{
+    this.setState({lives: iLives});
+    console.log(this.state.lives);
+    
   }
 
   // make a reference that allows App.tsx to access updateList from video.tsx
@@ -286,6 +294,22 @@ class App extends React.Component<{}, IState>{
         <Badge pill = {true} variant="success"> . </Badge>
         <span style={style}><b>{this.state.usersCountCurrent} online</b></span> 
         </Button>
+
+        <Button 
+        variant="link" 
+        size="sm" 
+        disabled = {true}>  
+        <Badge pill = {true} variant="warning"> . </Badge>
+        <span style={style}><b>{this.state.score} points</b></span> 
+        </Button>
+
+        <Button 
+        variant="link" 
+        size="sm" 
+        disabled = {true}>  
+        <Badge pill = {true} variant="danger"> . </Badge>
+        <span style={style}><b>{this.state.lives} lives</b></span> 
+        </Button>
         
         {/* <div className="col-26"> */}
         <Container>
@@ -293,7 +317,7 @@ class App extends React.Component<{}, IState>{
   <Row>
     <Col xs={12} md={12} lg ={12}>
       {/* <div className="container" > */}
-      <CaptionArea iScore = {this.updateScore} currentVideo={this.state.playingURL} play={this.updateURL} />
+      <CaptionArea iLives = {this.updateLives} iScore = {this.updateScore} currentVideo={this.state.playingURL} play={this.updateURL} />
         {/* <div className="row"> */}
         <Row>
           <Col xs = {12} md = {5} lg={7}>
@@ -328,7 +352,7 @@ class App extends React.Component<{}, IState>{
       </Col>
       </Row>
         </Container>
-
+        {window.scrollBy(0, window.innerHeight + 800)}
     </div>
     )
   }

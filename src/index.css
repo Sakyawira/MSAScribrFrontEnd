@@ -111,3 +111,8 @@ h2 {
 .player {
   background-color: black;
 }
+
+.alert {
+  padding: 13px; 
+}
+
