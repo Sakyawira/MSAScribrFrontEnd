@@ -441,42 +441,57 @@ public makeTableBody = () => {
       {/* <div className="container" > */}
       <CaptionArea iLives = {this.updateLives} iScore = {this.updateScore} currentVideo={this.state.playingURL} play={this.updateURL} />
         {/* <div className="row"> */}
+        </Col>
+        </Row>
         <Row>
-          <Col xs = {12} md = {5} lg={7}>
-            
-            <ReactPlayer
-              className="player"
-              ref={this.setRef}
-              controls={true}
-              // a state to know what video is currently playing
-              url={this.state.playingURL}
-              width="100%"
-              height="390px"
-              playing={true}
-              config={{
-                youtube: {
-                  playerVars: { showinfo: 1 },
-                  preload: true
-                }
-              }
-              }
-            />
-          </Col>
+                      <Col xs = {12} md = {5} lg={7}>
+                        
+                        <ReactPlayer
+                          className="player"
+                          ref={this.setRef}
+                          controls={true}
+                          // a state to know what video is currently playing
+                          url={this.state.playingURL}
+                          width="100%"
+                          height="390px"
+                          playing={true}
+                          config={{
+                            youtube: {
+                              playerVars: { showinfo: 1 },
+                              preload: true
+                            }
+                          }
+                          }
+                        />
+                      </Col>
          
-          <Col xs = {12} md = {7} lg={5}>
-        
-            {/* render the video list */}
-            <VideoList addVideo={this.addVideo} play={this.updateURL} mount={this.listMounted} hubConnection={this.state.hubConnection} />
-  
-          </Col>
+                      <Col xs = {12} md = {7} lg={5}>
+                    
+                        {/* render the video list */}
+                        <VideoList addVideo={this.addVideo} play={this.updateURL} mount={this.listMounted} hubConnection={this.state.hubConnection} />
+              
+                      </Col>
           </Row>
-    
-      </Col>
-      </Row>
-        </Container>
-        <tbody className="captionTable">
+{/*     
+        </Col> */}
+      
+      <Row>
+      <Col xs={12} md={12} lg ={12}>
+      <table className="table">
+                     < tr className="lyric-heading">
+                        <th>Player Name</th>
+                        <th>Score</th>
+                     
+                    </tr>
+                    <tbody className="captionTable">
                         {this.state.body}
                     </tbody>
+                    </table>
+                        
+        </Col>
+      </Row>
+        </Container>
+       
         {window.scrollBy(0, window.innerHeight + 800)}
     </div>
     )

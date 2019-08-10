@@ -27,20 +27,35 @@ export default class LeaderBoard extends React.Component<IProps, IState>{
         
 
     public search = () => {
-        if(this.state.input.trim() === ""){
-            this.setState({result:[]},()=>this.makeTableBody())
-        }else{
-            fetch("https://sakyaapi.azurewebsites.net/api/LeaderBoard", {
-                headers: {
-                  Accept: "text/plain"
-                },
-                method:"GET"
-            }).then(response => {
-                return response.json()
-            }).then(answer => {
-                this.setState({result:answer},()=>this.makeTableBody())
-            })
-        }
+        fetch('https://sakyaapi.azurewebsites.net/api/LeaderBoards',{
+            method:'GET'
+
+            // if returned, then convert into .json
+        }).then((ret:any) => {
+            return ret.json();
+
+            // If succesful then 
+        }).then((result:any) => {
+            const output:any[] = []
+
+            // for each video that we get, we map it into a table row
+            result.forEach((player:any) => {
+                const row = (<tr>
+                    {/* on click, run function handleLike */}
+                    {/* check if a video is favourited. If yes, return a start, else return a star border */}
+                    <td className="align-middle" >{player.PlayerName}</td>
+                    <td className="align-middle" >{player.Score}</td>
+                  
+                </tr>)
+                // If a video is favourited, put on the top, else push to the back
+              
+        
+                    output.push(row);
+                
+            });
+            // Set this to the output
+            this.setState({body:output})
+        })
     }
 
     public makeTableBody = () => {
