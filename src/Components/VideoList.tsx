@@ -140,6 +140,7 @@ class VideoList extends React.Component<IProps,IState>{
                 }else{
                     output.push(row);
                 }
+                console.log(row);
             });
             // Set this to the output
             this.setState({videoList:output})

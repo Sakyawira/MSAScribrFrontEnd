@@ -17,10 +17,14 @@ import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 
 interface IState {
+ 
+  body:any,
   hubConnection: any,
+  input: string,
   lives: any,
   player: any,
-  playingURL: string
+  playingURL: string,
+  result: any,
   score: number,
   updateVideoList: any,
   usersCountCurrent: any,
@@ -32,10 +36,14 @@ class App extends React.Component<{}, IState>{
   public constructor(props: any) {
     super(props);
     this.state = {
+      body: [],
+      
       hubConnection: new this.signalR.HubConnectionBuilder().withUrl("https://sakyaapi.azurewebsites.net/hub").build(),
+      input: "",
       lives : 3,
       player: null,
       playingURL: "",
+      result: [],
       score : 0,
       updateVideoList: null,
       usersCountCurrent: 0,
@@ -43,7 +51,118 @@ class App extends React.Component<{}, IState>{
     }
   }
 
- 
+  public search = () => {
+    fetch('https://sakyaapi.azurewebsites.net/api/LeaderBoards',{
+            method:'GET'
+
+            // if returned, then convert into .json
+        }).then((ret:any) => {
+            return ret.json();
+
+            // If succesful then 
+        }).then((result:any) => {
+            const output:any[] = []
+console.log(result);
+            // for each video that we get, we map it into a table row
+          //   result.sort((a:any, b:any)=>{
+            
+          //         return a.score.localeCompare(b.score);
+              
+          // })
+          result.sort((a:any, b:any)=>{
+            if ( a.score > b.score )
+            {
+              return -1;
+            }
+           else if ( a.score < b.score )
+            {
+              return 1;
+            }
+            return 0;
+          });
+          
+            result.forEach((player:any) => {
+                const row = (<tr>
+                    {/* on click, run function handleLike */}
+                    {/* check if a video is favourited. If yes, return a start, else return a star border */}
+                    <td className="align-middle" >{player.playerName}</td>
+                    <td className="align-middle" >{player.score}</td>
+                  
+                </tr>)
+                // If a video is favourited, put on the top, else push to the back
+              
+        
+                    output.push(row);
+                    console.log(row);
+                
+            });
+         
+
+            // output.sort((a:any, b:any)=>{
+            //   if ( a.score < b.score )
+            //   {
+            //     return -1;
+            //   }
+            //  else if ( a.score > b.score )
+            //   {
+            //     return 1;
+            //   }
+            //   return 0;
+            // });
+            
+            
+           
+          //   this.state.result.sort((a:any, b:any)=>{
+          //     if(a.webUrl === b.webUrl){
+          //         return 0;
+          //     }else if(a.webUrl === this.props.currentVideo){
+          //         return -1;
+          //     }else if(b.webUrl === this.props.currentVideo){
+          //         return 1;
+          //     }
+          //     else{
+          //         return a.videoTitle.localeCompare(b.videoTitle);
+          //     }
+          // })
+            // output.sort((a:any, b:any)=>{
+            
+            //           return b-a;
+                  
+            //   });
+            // Set this to the output
+            this.setState({body:output});
+        })
+}
+
+public makeTableBody = () => {
+    const toRet: any[] = [];
+    this.state.result.sort((a:any, b:any)=>{
+      
+            return a.Score.localeCompare(b.Score);
+        
+    })
+    console.log(this.state.result);
+    this.state.result.forEach(() => {
+    //  console.log(this.state.result);
+            toRet.push(
+                <tr >
+                    <td>{this.state.result.playerName}</td>
+                    <td>{this.state.result.Score}</td>
+                </tr>)
+     });
+    if (toRet.length === 0) {
+        if(this.state.input.trim() === ""){
+            const errorCase = <div><p>Sorry you need to still search</p></div>
+            this.setState({body:errorCase})
+        }else{
+            const errorCase = <div><p>Sorry no results were returned for "{this.state.input}"</p></div>
+            this.setState({body:errorCase})
+        }
+    }
+    else{
+        this.setState({body:toRet})
+    }
+}
 
   public setRef = (playerRef: any) => {
     this.setState({
@@ -53,22 +172,23 @@ class App extends React.Component<{}, IState>{
 
     // a function to add the video, which accepts a string called url
   public addVideo = (url: string) => {
-    const body = {"url": url}
-    fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
-         //  fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
-      // convert body to a string and put it into a json file
-      body: JSON.stringify(body),
-      headers: {
-        Accept: "text/plain",
-        "Content-Type": "application/json"
-      },
-      // use POST method to send content to the API
-      method: "POST"
+    // const body = {"url": url}
+    // fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
+    //      //  fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
+    //   // convert body to a string and put it into a json file
+    //   body: JSON.stringify(body),
+    //   headers: {
+    //     Accept: "text/plain",
+    //     "Content-Type": "application/json"
+    //   },
+    //   // use POST method to send content to the API
+    //   method: "POST"
 
-      // call the updateVideoList which calls the updateVideo function in VideoList.tsx
-    }).then(() => {
-      this.state.updateVideoList();
-    }).then(() => {this.state.hubConnection.invoke("VideoAdded")});
+    //   // call the updateVideoList which calls the updateVideo function in VideoList.tsx
+    // }).then(() => {
+    //   this.state.updateVideoList();
+    // }).then(() => {this.state.hubConnection.invoke("VideoAdded")});
+    this.search();
   }
 
   // update the URL to change the video we are playing
@@ -352,6 +472,9 @@ class App extends React.Component<{}, IState>{
       </Col>
       </Row>
         </Container>
+        <tbody className="captionTable">
+                        {this.state.body}
+                    </tbody>
         {window.scrollBy(0, window.innerHeight + 800)}
     </div>
     )
