@@ -23,9 +23,9 @@ interface IState {
     isFirst: any,
     isLoading: any,
     isNewQuest: any,
-    lives: any,
+    lives: number,
     result: any,
-    score: any,
+    score: number,
     scrollY: any,
     body: any,
     question: any,
@@ -59,6 +59,14 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             scrollY: 0,
             wrongResult: [],
         }
+    }
+
+    public reset = () =>
+    {
+        this.setState({score:0});
+        this.setState({lives:3});
+        this.props.iScore(0);
+        this.props.iLives(3);
     }
 
     // make a reference that allows App.tsx to access updateList from video.tsx
@@ -167,7 +175,12 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
             // this.setState((state) => ({score : state.score + 100}));
 
-            this.setState(state => ({ score: state.score + 100 }));
+           
+
+            const n : number = this.state.score;
+            this.setState({score: n + 100 });
+            this.props.iScore(n + 100);
+            
             //  this.forceUpdate();
             // this.search();
             console.log(this.state.score);
@@ -183,9 +196,9 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         else if (this.state.lives === 0) {
             this.setState({
                 isCorrect:
-                    <Button variant={'outline-danger'} size="sm" disabled={true}> ""You have run out of lives! Reload to play again!""</Button>
-
-
+                    <Button variant={'outline-danger'} size="sm" disabled={true}>
+                        ""You have run out of lives! Reload to play again!""
+                    </Button>
             });
         }
         else {
@@ -195,6 +208,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         Click here =>
             </Button>
             });
+            this.setState({ scrollY: 0 });
         }
         //  window.scrollTo(0,1080);
     }
@@ -209,19 +223,23 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             this.setState({ scrollY: 0 });
             this.setState({ isCorrect: <Button variant={'outline-danger'} size="sm" disabled={true}> "Wrong!"</Button> });
 
+            const n : number = this.state.lives;
+            console.log(n);
+            this.setState({ lives: n - 1 });
 
-            this.setState(state => ({ lives: state.lives - 1 }));
+            console.log(n);
 
-
-            console.log(this.state.score);
+            
+            this.props.iLives(n-1);
+            
         }
 
         else if (this.state.lives === 0) {
             this.setState({
                 isCorrect:
-                    <Button variant={'outline-danger'} size="sm" disabled={true}> ""You have run out of lives! Reload to play again!""</Button>
-
-
+                    <Button variant={'outline-danger'} size="sm" disabled={true}> 
+                    ""You have run out of lives! Reload to play again!""
+                    </Button>
             });
         }
 
@@ -232,6 +250,7 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         Click here =>
            </Button>
             });
+            this.setState({ scrollY: 0 });
         }
     }
 
@@ -402,8 +421,29 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                         <Col xs={12} md={7} lg={2}>
                             {this.state.isCorrect}
                             {/* <h1 ><span className="lyric-heading"></span></h1> */}
-
                         </Col>
+                        {this.state.lives === 0 ? 
+                         <Button
+                         variant="warning"
+                         size="sm"
+                         disabled={this.state.isLoading}
+                         onClick={() => this.reset()}
+                     >
+                         {this.state.isLoading ? 'Loading…' : 'Replay'}
+                         {this.state.isLoading ?
+
+                             <Spinner
+                                 as="span"
+                                 animation="grow"
+                                 size="sm"
+                                 role="status"
+                                 aria-hidden="true"
+                             />
+                             : null}
+                     </Button>
+                        : 
+                        null
+                        }
 
                         <Col xs={12} md={5} lg={2}>
                             {/* question */}
@@ -456,8 +496,6 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                     <Row>
                         <Col xs={12} md={7} lg={7}>
                             {/* feedback */}
-
-
 
                         </Col>
                         {window.scrollBy(0, this.state.scrollY)}

@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player';
 // import {InlineReactionButtons} from 'sharethis-reactjs';
 // import {InlineShareButtons} from 'sharethis-reactjs';
 import { StickyShareButtons } from 'sharethis-reactjs';
-// import {InlineFollowButtons} from 'sharethis-reactjs';
+
 import CaptionArea from 'src/Components/CaptionArea';
 import Header from 'src/Components/Header';
 import VideoList from 'src/Components/VideoList';
