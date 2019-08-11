@@ -61,12 +61,13 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         }
     }
 
-    public reset = () =>
-    {
-        this.setState({score:0});
-        this.setState({lives:3});
+    public reset = () => {
+        this.setState({ score: 0 });
+        this.setState({ lives: 3 });
         this.props.iScore(0);
         this.props.iLives(3);
+        this.setState({ isCorrect: "" });
+        // this.search();
     }
 
     // make a reference that allows App.tsx to access updateList from video.tsx
@@ -131,9 +132,6 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         }
         this.setState({
             isCorrect: ""
-            // <Button variant={'secondary'} size = "sm" disabled ={true}>
-            // "Click the right video!"
-            // </Button>
         });
         this.setState({ scrollY: 0 });
     }
@@ -175,12 +173,12 @@ export default class CaptionArea extends React.Component<IProps, IState>{
 
             // this.setState((state) => ({score : state.score + 100}));
 
-           
 
-            const n : number = this.state.score;
-            this.setState({score: n + 100 });
+
+            const n: number = this.state.score;
+            this.setState({ score: n + 100 });
             this.props.iScore(n + 100);
-            
+
             //  this.forceUpdate();
             // this.search();
             console.log(this.state.score);
@@ -223,22 +221,22 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             this.setState({ scrollY: 0 });
             this.setState({ isCorrect: <Button variant={'outline-danger'} size="sm" disabled={true}> "Wrong!"</Button> });
 
-            const n : number = this.state.lives;
+            const n: number = this.state.lives;
             console.log(n);
             this.setState({ lives: n - 1 });
 
             console.log(n);
 
-            
-            this.props.iLives(n-1);
-            
+
+            this.props.iLives(n - 1);
+
         }
 
         else if (this.state.lives === 0) {
             this.setState({
                 isCorrect:
-                    <Button variant={'outline-danger'} size="sm" disabled={true}> 
-                    ""You have run out of lives! Reload to play again!""
+                    <Button variant={'outline-danger'} size="sm" disabled={true}>
+                        ""You have run out of lives! Reload to play again!""
                     </Button>
             });
         }
@@ -422,53 +420,54 @@ export default class CaptionArea extends React.Component<IProps, IState>{
                             {this.state.isCorrect}
                             {/* <h1 ><span className="lyric-heading"></span></h1> */}
                         </Col>
-                        {this.state.lives === 0 ? 
-                         <Button
-                         variant="warning"
-                         size="sm"
-                         disabled={this.state.isLoading}
-                         onClick={() => this.reset()}
-                     >
-                         {this.state.isLoading ? 'Loading…' : 'Replay'}
-                         {this.state.isLoading ?
-
-                             <Spinner
-                                 as="span"
-                                 animation="grow"
-                                 size="sm"
-                                 role="status"
-                                 aria-hidden="true"
-                             />
-                             : null}
-                     </Button>
-                        : 
-                        null
-                        }
-
                         <Col xs={12} md={5} lg={2}>
-                            {/* question */}
-                            <Button
-                                variant="danger"
-                                size="sm"
-                                disabled={this.state.isLoading}
-                                onClick={() => this.search()}
-                            >
-                                {this.state.isLoading ? 'Loading…' : 'Get new question'}
-                                {this.state.isLoading ?
+                            {this.state.lives === 0 ?
+                                <Button
+                                    variant="warning"
+                                    size="sm"
+                                    disabled={this.state.isLoading}
+                                    onClick={() => this.reset()}
+                                >
+                                    {this.state.isLoading ? 'Loading…' : 'Replay'}
+                                    {this.state.isLoading ?
 
-                                    <Spinner
-                                        as="span"
-                                        animation="grow"
-                                        size="sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                    />
-                                    : null}
-                            </Button>
-                            {/* <Alert variant={"secondary"} > */}
+                                        <Spinner
+                                            as="span"
+                                            animation="grow"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        />
+                                        : null}
+                                </Button>
+                                :
+                                <Button
+                                    variant="danger"
+                                    size="sm"
+                                    disabled={this.state.isLoading}
+                                    onClick={() => this.search()}
+                                >
+                                    {this.state.isLoading ? 'Loading…' : 'Get new question'}
+                                    {this.state.isLoading ?
 
-                            {/* </Alert> */}
+                                        <Spinner
+                                            as="span"
+                                            animation="grow"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        />
+                                        : null}
+                                </Button>
+                            }
                         </Col>
+
+                        {/* question */}
+
+                        {/* <Alert variant={"secondary"} > */}
+
+                        {/* </Alert> */}
+
 
                         {/* <tbody className="lyric-heading"> */}
 
