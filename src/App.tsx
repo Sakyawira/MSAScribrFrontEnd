@@ -45,7 +45,7 @@ class App extends React.Component<{}, IState>{
 
       hubConnection: new this.signalR.HubConnectionBuilder().withUrl("https://sakyaapi.azurewebsites.net/hub").build(),
       input: "",
-      isLoading : false,
+      isLoading: false,
       lives: 3,
       player: null,
       playingURL: "",
@@ -99,7 +99,7 @@ class App extends React.Component<{}, IState>{
 
       // Set this to the output
       this.setState({ body: output });
-      this.setState({isLoading:false});
+      this.setState({ isLoading: false });
       window.scrollTo(0, window.innerHeight);
     })
   }
@@ -141,7 +141,7 @@ class App extends React.Component<{}, IState>{
   }
 
   public addVideo = (url: string) => {
-    const body = {"url": url}
+    const body = { "url": url }
     fetch("https://sakyaapi.azurewebsites.net/api/Videos", {
       body: JSON.stringify(body),
       headers: {
@@ -151,13 +151,12 @@ class App extends React.Component<{}, IState>{
       method: "POST"
     }).then(() => {
       this.state.updateVideoList();
-    }).then(() => {this.state.hubConnection.invoke("VideoAdded")});
+    }).then(() => { this.state.hubConnection.invoke("VideoAdded") });
   }
 
   // a function to add the video, which accepts a string called url
-  public addPlayer = (name: string) => 
-  {
-    this.setState({isLoading : true});
+  public addPlayer = (name: string) => {
+    this.setState({ isLoading: true });
 
     const body = { "playerName": name, "score": this.state.score }
 
@@ -398,66 +397,66 @@ class App extends React.Component<{}, IState>{
         {/* render the caption area */}
         <Container>
           <Row>
-          <Col xs={12} md={12} lg ={12}>
-          <Button
-            variant="link"
-            size="sm"
-            disabled={true}>
-            <Badge pill={true} variant="success">.</Badge>
-            <span style={style}><b>{this.state.usersCountCurrent} online</b></span>
-          </Button>
+            <Col xs={12} md={12} lg={12}>
+              <Button
+                variant="link"
+                size="sm"
+                disabled={true}>
+                <Badge pill={true} variant="success">.</Badge>
+                <span style={style}><b>{this.state.usersCountCurrent} online</b></span>
+              </Button>
 
-          <Button
-            variant="link"
-            size="sm"
-            disabled={true}>
-            <Badge pill={true} variant="warning">.</Badge>
-            <span style={style}><b>{this.state.score} points</b></span>
-          </Button>
+              <Button
+                variant="link"
+                size="sm"
+                disabled={true}>
+                <Badge pill={true} variant="warning">.</Badge>
+                <span style={style}><b>{this.state.score} points</b></span>
+              </Button>
 
-          <Button
-            variant="link"
-            size="sm"
-            disabled={true}>
-            <Badge pill={true} variant="danger">.</Badge>
-            <span style={style}><b>{this.state.lives} lives</b></span>
-          </Button>
-          </Col>
+              <Button
+                variant="link"
+                size="sm"
+                disabled={true}>
+                <Badge pill={true} variant="danger">.</Badge>
+                <span style={style}><b>{this.state.lives} lives</b></span>
+              </Button>
+            </Col>
           </Row>
           <Row>
-            {this.state.lives === 0 ? 
-            <Col xs={12} md={12} lg ={12}>
-            <TextField
-            id= "Search-Bar"
-            className = "SearchBar"
-            placeholder="Enter your name"
-            margin="normal"
-            variant="outlined"
-            onChange = { (event: any ) => this.setState({input:event.target.value})}
-            value = {this.state.input}
-            InputProps={{
-                endAdornment: <InputAdornment position="start">
-                     <Button
-                            variant="outline-danger"
-                            size = "sm"
-                            disabled = {this.state.isLoading}
-                            onClick={() => this.addPlayer(this.state.input)}
-                            >
-                            {this.state.isLoading ?  <Spinner
-                                as="span"
-                                animation="grow"
-                                size="sm"
-                                role="status"
-                                aria-hidden="true"
-                                /> : '+'}
-                               
-                            </Button>
-                </InputAdornment>,
-            }}
-            />
-            
-        </Col>
-          : null}
+            {this.state.lives === 0 ?
+              <Col xs={12} md={12} lg={12}>
+                <TextField
+                  id="Search-Bar"
+                  className="SearchBar"
+                  placeholder="Enter your name"
+                  margin="normal"
+                  variant="outlined"
+                  onChange={(event: any) => this.setState({ input: event.target.value })}
+                  value={this.state.input}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="start">
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        disabled={this.state.isLoading}
+                        onClick={() => this.addPlayer(this.state.input)}
+                      >
+                        {this.state.isLoading ? <Spinner
+                          as="span"
+                          animation="grow"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        /> : '+'}
+
+                      </Button>
+                    </InputAdornment>,
+                  }}
+                />
+
+              </Col>
+              : null}
           </Row>
         </Container>
         {/* <div className="col-26"> */}
@@ -501,22 +500,26 @@ class App extends React.Component<{}, IState>{
           </Row>
           {/*     
         </Col> */}
+          {this.state.lives === 0 ?
+            <Row>
+              <Col xs={12} md={12} lg={12}>
+                <table className="table">
+                  < tr className="lyric-heading">
+                    <th>Player Name</th>
+                    <th>Score</th>
 
-          <Row>
-            <Col xs={12} md={12} lg={12}>
-              <table className="table">
-                < tr className="lyric-heading">
-                  <th>Player Name</th>
-                  <th>Score</th>
+                  </tr>
+                  <tbody className="captionTable">
+                    {this.state.body}
+                  </tbody>
+                </table>
 
-                </tr>
-                <tbody className="captionTable">
-                  {this.state.body}
-                </tbody>
-              </table>
+              </Col>
+            </Row>
+            :
+            null
+          }
 
-            </Col>
-          </Row>
         </Container>
 
         {window.scrollBy(0, window.innerHeight + 800)}

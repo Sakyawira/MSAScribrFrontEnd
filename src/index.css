@@ -21,7 +21,7 @@ h1 {
 }
 
 .red-heading {
-  color: #C1263A;
+  color: #cc3333;
   padding-top: 0px;
  /* font-size: 28px; */
 }
@@ -31,17 +31,17 @@ h2 {
   font-weight: 600;
   color: #6D6D6D;
   float: left;
-  padding-top: 10px;
+  padding: 2px;
 }
 
 .red-heading2 {
-  color: #C1263A;
+  color: #cc3333;
   padding-top: 10px;
  /* font-size: 28px; */
 }
 
 .lyric-heading {
-  color: #C1263A;
+  color: #cc3333;
   font-size: 15px;
   margin-left: 1pxl;
   margin-right: 1pxl;
