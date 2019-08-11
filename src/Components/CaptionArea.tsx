@@ -19,27 +19,27 @@ import * as React from 'react'
 
 interface IState {
     input: string,
-    isCorrect:any,
-    isFirst:any,
+    isCorrect: any,
+    isFirst: any,
     isLoading: any,
     isNewQuest: any,
     lives: any,
     result: any,
-    score : any,
+    score: any,
     scrollY: any,
-    body:any,
-    question:any,
+    body: any,
+    question: any,
     wrongResult: any,
 
-   
+
 }
 
 interface IProps {
-    currentVideo:any,
+    currentVideo: any,
     iScore: any,
     iLives: any,
     play: any,
- 
+
 }
 
 export default class CaptionArea extends React.Component<IProps, IState>{
@@ -48,199 +48,191 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         this.state = {
             body: [],
             input: "",
-            isCorrect:"",
+            isCorrect: "",
             isFirst: true,
             isLoading: false,
             isNewQuest: true,
             lives: 3,
             question: [],
             result: [],
-            score : 0,
-            scrollY : 0,
+            score: 0,
+            scrollY: 0,
             wrongResult: [],
         }
     }
-  
-         // make a reference that allows App.tsx to access updateList from video.tsx
-  public listMounted = (callbacks: any) => {
- //   this.setState({ updateVideoList: callbacks })
- }
+
+    // make a reference that allows App.tsx to access updateList from video.tsx
+    public listMounted = (callbacks: any) => {
+        //   this.setState({ updateVideoList: callbacks })
+    }
     // Handle search of caption/transcription
-    public search = () => 
-    {
-      //  this.setState(state =>  ({score : state.score + 100}));
+    public search = () => {
+        //  this.setState(state =>  ({score : state.score + 100}));
         this.props.iScore(this.state.score);
         this.props.iLives(this.state.lives);
 
         console.log(this.state.score);
         let inumber: number = 0;
-        let runnumber : number = 2;
+        let runnumber: number = 2;
 
-        if (this.state.isFirst === false)
-        {
+        if (this.state.isFirst === false) {
             runnumber = 1;
         }
 
-        while (inumber < runnumber)
-        {
-        this.setState({isNewQuest:true});
-        this.setState({isLoading: true});
-        // window.scrollTo(0,0);
-        
-       
+        while (inumber < runnumber) {
+            this.setState({ isNewQuest: true });
+            this.setState({ isLoading: true });
+            // window.scrollTo(0,0);
 
-        fetch("https://sakyaapi.azurewebsites.net/api/Videos/GetRandomVideo", {
-            headers: {
-              Accept: "text/plain"
-            },
-            method:"GET"
 
-        // convert the response to json
-        }).then(response => {
-            
-            return response.json()
-            
-        // convert the result to a table
-        }).then(answer => {
-            this.setState({wrongResult:answer})
-        })
 
-        // Get Random transcription and change its like value
+            fetch("https://sakyaapi.azurewebsites.net/api/Videos/GetRandomVideo", {
+                headers: {
+                    Accept: "text/plain"
+                },
+                method: "GET"
+
+                // convert the response to json
+            }).then(response => {
+
+                return response.json()
+
+                // convert the result to a table
+            }).then(answer => {
+                this.setState({ wrongResult: answer })
+            })
+
+            // Get Random transcription and change its like value
             fetch("https://sakyaapi.azurewebsites.net/api/Transcriptions/GetRandomTranscription", {
                 headers: {
-                  Accept: "text/plain"
+                    Accept: "text/plain"
                 },
-                method:"GET"
+                method: "GET"
 
-            // convert the response to json
+                // convert the response to json
             }).then(response => {
-                
+
                 return response.json()
-                
-            // convert the result to a table
+
+                // convert the result to a table
             }).then(answer => {
-                this.setState({result:answer},()=>this.makeTableBody())
-                
+                this.setState({ result: answer }, () => this.makeTableBody())
+
             })
             inumber += 1;
         }
-        this.setState({isCorrect: ""
-        // <Button variant={'secondary'} size = "sm" disabled ={true}>
-        // "Click the right video!"
-        // </Button>
-    }    );
-        this.setState({scrollY:0});
+        this.setState({
+            isCorrect: ""
+            // <Button variant={'secondary'} size = "sm" disabled ={true}>
+            // "Click the right video!"
+            // </Button>
+        });
+        this.setState({ scrollY: 0 });
     }
 
-    public makeLike = (video:any) => {
+    public makeLike = (video: any) => {
         // Create the object to send
         const toSend = [{
-            "from":"",
-            "op":"replace",
-            "path":"/isFavourite",
+            "from": "",
+            "op": "replace",
+            "path": "/isFavourite",
             "value": true,
         }]
-        fetch("https://sakyaapi.azurewebsites.net/api/Videos/update/"+video.videoId, {
-            body:JSON.stringify(toSend),
+        fetch("https://sakyaapi.azurewebsites.net/api/Videos/update/" + video.videoId, {
+            body: JSON.stringify(toSend),
             headers: {
                 // Tell the fetch so it knows what to accept 
-              Accept: "text/plain",
+                Accept: "text/plain",
                 // Tell the fetch to know the type of the content
-              "Content-Type": "application/json-patch+json"
+                "Content-Type": "application/json-patch+json"
             },
             method: "PATCH"
-          })
+        })
     }
 
-    public handleTableClick = (video:any, timedURL: string) => {
+    public handleTableClick = (video: any, timedURL: string) => {
         // scroll the window to the top
-       
+
         // play video at the specific time
-       if (this.state.isNewQuest === true && this.state.lives !== 0)
-       {
-        this.props.play(video.webUrl + "&t=" + timedURL + "s")
-        // window.scrollTo(0,0);
+        if (this.state.isNewQuest === true && this.state.lives !== 0) {
+            this.props.play(video.webUrl + "&t=" + timedURL + "s")
+            // window.scrollTo(0,0);
 
-        this.setState({
-            isCorrect:
-            <Button variant= {'outline-success'}  size = "sm" disabled ={true}>
-            "Correct!"
+            this.setState({
+                isCorrect:
+                    <Button variant={'outline-success'} size="sm" disabled={true}>
+                        "Correct!"
             </Button>
             });
-        
-        // this.setState((state) => ({score : state.score + 100}));
 
-       this.setState(state =>  ({score : state.score + 100}));
-     //  this.forceUpdate();
-      // this.search();
-           console.log(this.state.score);
+            // this.setState((state) => ({score : state.score + 100}));
 
-      //   this.props.iScore(this.state.score);
-     
-        this.setState({scrollY:650});
+            this.setState(state => ({ score: state.score + 100 }));
+            //  this.forceUpdate();
+            // this.search();
+            console.log(this.state.score);
 
-        this.setState({isNewQuest:false});
+            //   this.props.iScore(this.state.score);
 
-        // this.search();
-       }
-       else if (this.state.lives === 0)
-       {
-         this.setState({
-             isCorrect:
-             <Button variant= {'outline-danger'}  size = "sm" disabled ={true}> ""You have run out of lives! Reload to play again!""</Button>
-             
-            
-             });
-       }
-       else
-       {
-        this.setState({
-            isCorrect:
-            <Button variant={'outline-secondary'} size = "sm" disabled ={true}>
-            Click here =>
+            this.setState({ scrollY: 650 });
+
+            this.setState({ isNewQuest: false });
+
+            // this.search();
+        }
+        else if (this.state.lives === 0) {
+            this.setState({
+                isCorrect:
+                    <Button variant={'outline-danger'} size="sm" disabled={true}> ""You have run out of lives! Reload to play again!""</Button>
+
+
+            });
+        }
+        else {
+            this.setState({
+                isCorrect:
+                    <Button variant={'outline-secondary'} size="sm" disabled={true}>
+                        Click here =>
             </Button>
             });
-       }
-           //  window.scrollTo(0,1080);
+        }
+        //  window.scrollTo(0,1080);
     }
 
     public handleTableClickWrong = () => {
         // scroll the window to the top
-      //  window.scrollTo(0,0);
-      if (this.state.isNewQuest === true && this.state.lives !== 0)
-      {
-      this.setState({isNewQuest:false});
+        //  window.scrollTo(0,0);
+        if (this.state.isNewQuest === true && this.state.lives !== 0) {
+            this.setState({ isNewQuest: false });
 
-     // this.setState({lives : this.state.lives - 1});
-        this.setState({scrollY:0});
-        this.setState({isCorrect:  <Button variant= {'outline-danger'}  size = "sm" disabled ={true}> "Wrong!"</Button>});
+            // this.setState({lives : this.state.lives - 1});
+            this.setState({ scrollY: 0 });
+            this.setState({ isCorrect: <Button variant={'outline-danger'} size="sm" disabled={true}> "Wrong!"</Button> });
 
-       
-       this.setState(state =>  ({lives : state.lives - 1}));
-        
-        
-        console.log(this.state.score);
-      }
 
-      else if (this.state.lives === 0)
-      {
-        this.setState({
-            isCorrect:
-            <Button variant= {'outline-danger'}  size = "sm" disabled ={true}> ""You have run out of lives! Reload to play again!""</Button>
-            
-           
+            this.setState(state => ({ lives: state.lives - 1 }));
+
+
+            console.log(this.state.score);
+        }
+
+        else if (this.state.lives === 0) {
+            this.setState({
+                isCorrect:
+                    <Button variant={'outline-danger'} size="sm" disabled={true}> ""You have run out of lives! Reload to play again!""</Button>
+
+
             });
-      }
+        }
 
-      else
-      {
-       this.setState({
-           isCorrect:
-           <Button variant={'outline-secondary'} size = "sm" disabled ={true}>
-           Click here =>
+        else {
+            this.setState({
+                isCorrect:
+                    <Button variant={'outline-secondary'} size="sm" disabled={true}>
+                        Click here =>
            </Button>
-           });
-      }
+            });
+        }
     }
 
     // Make a table
@@ -248,115 +240,100 @@ export default class CaptionArea extends React.Component<IProps, IState>{
         let questionId: any = 0;
         const toRet: any[] = [];
         const toRet2: any[] = [];
-        
-        this.state.result.forEach((video: any) =>
-        {
+
+        this.state.result.forEach((video: any) => {
             let pushedID: any;
             // for each video's transcription
-            video.transcription.forEach((caption: any) => 
-            {
-                 // make a table row for each transcription (caption)
+            video.transcription.forEach((caption: any) => {
+                // make a table row for each transcription (caption)
 
                 // if pushedID (the id of the video that has just been pushed) is not equal to the current video's id
                 // the video is null
-                if (pushedID !== video.videoId && video != null)
-                {
+                if (pushedID !== video.videoId && video != null) {
                     toRet2.push
-                    (
-                        // Push the caption into an array
-                        <td className="align-left">
-                            <td>{caption.phrase}</td>
-                        </td>
-                    )
+                        (
+                            // Push the caption into an array
+                            <td className="align-left">
+                                <td>{caption.phrase}</td>
+                            </td>
+                        )
                 }
-              pushedID = video.videoId;
+                pushedID = video.videoId;
             })
         });
 
-        this.state.result.forEach((video: any) => 
-        {
+        this.state.result.forEach((video: any) => {
             let pushedID: any;
             // for each video's transcription
             video.transcription.forEach((caption: any) => {
 
-            // make a table row for each transcription (caption)
-            // if pushedID (the id of the video that has just been pushed) is not equal to the current video's id
-            if (pushedID !== video.videoId && video != null)
-            {
-                toRet.push
-                (
-                    <table className="table"> 
-                    <tr>
-                     <td >
-                     
-                     <td className="align-left" onClick={() => this.handleTableClick(video,caption.startTime)}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail"/></td>
-                     <td className="align-right" onClick={() => this.handleTableClick(video,caption.startTime)}><b>{video.videoTitle}</b></td>
-                         {/* the title */}
-                         {/* <td className="table">{video.videoTitle}</td> */}
-                        
-                     </td>
-                     </tr>
-                     </table>
-                )
-            }
-              pushedID = video.videoId;
-              // Set the question id to the one pushed last
-              questionId = video.videoId;
+                // make a table row for each transcription (caption)
+                // if pushedID (the id of the video that has just been pushed) is not equal to the current video's id
+                if (pushedID !== video.videoId && video != null) {
+                    toRet.push
+                        (
+                            <table className="table">
+                                <tr>
+                                    <td >
+
+                                        <td className="align-left" onClick={() => this.handleTableClick(video, caption.startTime)}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail" /></td>
+                                        <td className="align-right" onClick={() => this.handleTableClick(video, caption.startTime)}><b>{video.videoTitle}</b></td>
+                                        {/* the title */}
+                                        {/* <td className="table">{video.videoTitle}</td> */}
+
+                                    </td>
+                                </tr>
+                            </table>
+                        )
+                }
+                pushedID = video.videoId;
+                // Set the question id to the one pushed last
+                questionId = video.videoId;
             })
         });
 
         // declare and set the currentID to the questionID
-        let currentId : any = 0; // questionId;
+        let currentId: any = 0; // questionId;
 
-      //  while (currentId === questionId)
-        
-      
-        // .then(() =>
-        // {
-    
-         console.log(toRet);
+        console.log(toRet);
         // runs up to here
-    
-        this.state.wrongResult.forEach((video: any) => 
-        {
-            currentId = video.videoId;
-            if (currentId !== questionId)
-        {
-           
-            let pushedID: any;
 
-            // for each video's transcription
-            video.transcription.forEach((caption: any) => {
-                // make a table row for each transcription (caption)
-                
-              if (pushedID !== video.videoId && video != null)
-              {
-                toRet.push(
-                    <table className="table"> 
-                    <tr>
-                     <td >
-                     <td className="align-left" onClick={() => this.handleTableClickWrong()}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail"/></td>
-                     <td className="align-right" onClick={() => this.handleTableClickWrong()}><b>{video.videoTitle}</b></td>
-                    
- 
-                         {/* the title */}
-                         {/* <td className="table">{video.videoTitle}</td> */}
-                         
-                     </td>
-                     </tr>
-                     </table>
-                    )
-              }
-              
-              pushedID = video.videoId;
-            })
-        }
+        this.state.wrongResult.forEach((video: any) => {
+            currentId = video.videoId;
+            if (currentId !== questionId) {
+
+                let pushedID: any;
+
+                // for each video's transcription
+                video.transcription.forEach((caption: any) => {
+                    // make a table row for each transcription (caption)
+
+                    if (pushedID !== video.videoId && video != null) {
+                        toRet.push(
+                            <table className="table">
+                                <tr>
+                                    <td >
+                                        <td className="align-left" onClick={() => this.handleTableClickWrong()}><img src={video.thumbnailUrl} width="130px" alt="Thumbnail" /></td>
+                                        <td className="align-right" onClick={() => this.handleTableClickWrong()}><b>{video.videoTitle}</b></td>
+
+
+                                        {/* the title */}
+                                        {/* <td className="table">{video.videoTitle}</td> */}
+
+                                    </td>
+                                </tr>
+                            </table>
+                        )
+                    }
+
+                    pushedID = video.videoId;
+                })
+            }
         });
-    // });
+        // });
 
         // if the length of the table row is 0
-        if (toRet.length === 1) 
-        {
+        if (toRet.length === 1) {
             // if the input was empty
             // if(this.state.input.trim() === "")
             // {
@@ -371,128 +348,126 @@ export default class CaptionArea extends React.Component<IProps, IState>{
             //     this.setState({body:errorCase})
             // } 
             // this.makeTableBody();
-           // console.log(toRet);
+            // console.log(toRet);
         }
-        else
-        {
+        else {
             // let rng = Math.floor(Math.random() * 2) + 1;  
-             // make body into the table row
-             // if (rn)
-              // Used like so
-           // var arr = [2, 11, 37, 42];
+            // make body into the table row
+            // if (rn)
+            // Used like so
+            // var arr = [2, 11, 37, 42];
             this.shuffleInPlace(toRet);
             console.log(toRet);
             // console.log(arr);
-            this.setState({body:toRet2})
-            this.setState({question:toRet})
-            
-          //  this.setState({question: ourQ});
+            this.setState({ body: toRet2 })
+            this.setState({ question: toRet })
+
+            //  this.setState({question: ourQ});
         }
-        if (this.state.isFirst === false)
-        {
-            this.setState({isLoading: false});
+        if (this.state.isFirst === false) {
+            this.setState({ isLoading: false });
         }
-        this.setState({isFirst: false});
+        this.setState({ isFirst: false });
     }
 
     public shuffleInPlace<T>(array: T[]): T[] {
         for (let i = array.length - 1; i > 0; i--) {
-	    	const j = Math.floor(Math.random() * (i + 1));
-		    const swap = array[i];
-		    array[i] = array[j];
-		    array[j] = swap;
+            const j = Math.floor(Math.random() * (i + 1));
+            const swap = array[i];
+            array[i] = array[j];
+            array[j] = swap;
         }
         return array;
- 	}
-      
-     
+    }
+
+
     public render() {
-       
+
         return (
-           
-            <div className = "caption-area">
-                 { window.scrollTo(0,0)}
-            <Container>
-          
-                
-                {/* <div className="row"> */}
+
+            <div className="caption-area">
+                {window.scrollTo(0, 0)}
+                <Container>
+
+
+                    {/* <div className="row"> */}
                     {/* <div className="col-26 "> */}
                     <Row>
-                        <Col xs={12} md={7} lg ={8}>
-                        <h1 ><span className="lyric-heading">Which song contains these</span> {this.state.body}</h1>
-                        {/* <h1 ><span className="lyric-heading"></span></h1> */}
-                       
+                        <Col xs={12} md={7} lg={8}>
+                            <h1 ><span className="lyric-heading">Which song contains these</span> {this.state.body}</h1>
+                            {/* <h1 ><span className="lyric-heading"></span></h1> */}
+
                         </Col>
 
-                        <Col xs={12} md={7} lg ={2}>
-                        {this.state.isCorrect}
-                        {/* <h1 ><span className="lyric-heading"></span></h1> */}
-                       
+                        <Col xs={12} md={7} lg={2}>
+                            {this.state.isCorrect}
+                            {/* <h1 ><span className="lyric-heading"></span></h1> */}
+
                         </Col>
-                       
-                        <Col xs={12} md={5} lg ={2}>
-                      {/* question */}
-                      <Button
-                            variant="danger"
-                            size = "sm"
-                            disabled = {this.state.isLoading}
-                            onClick={() => this.search()}
-                            >
-                            {this.state.isLoading ? 'Loading…' : 'Get new question'}
-                               {this.state.isLoading ?
-                               
-                                <Spinner
-                                as="span"
-                                animation="grow"
+
+                        <Col xs={12} md={5} lg={2}>
+                            {/* question */}
+                            <Button
+                                variant="danger"
                                 size="sm"
-                                role="status"
-                                aria-hidden="true"
-                                />
-                               : null}
+                                disabled={this.state.isLoading}
+                                onClick={() => this.search()}
+                            >
+                                {this.state.isLoading ? 'Loading…' : 'Get new question'}
+                                {this.state.isLoading ?
+
+                                    <Spinner
+                                        as="span"
+                                        animation="grow"
+                                        size="sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    />
+                                    : null}
                             </Button>
-                        {/* <Alert variant={"secondary"} > */}
-                         
-                        {/* </Alert> */}
-                     </Col>
-                   
-                     {/* <tbody className="lyric-heading"> */}
-                      
-                     {/* </tbody> */}
+                            {/* <Alert variant={"secondary"} > */}
+
+                            {/* </Alert> */}
+                        </Col>
+
+                        {/* <tbody className="lyric-heading"> */}
+
+                        {/* </tbody> */}
                     </Row>
 
-                <Row>
-                     {/* make a table */}
-                     {/* <table className="table"> */}
+                    <Row>
+                        {/* make a table */}
+                        {/* <table className="table"> */}
 
-                       {/* videos*/}
-                       <Col xs={12} md={7} lg ={4}>
-                        <th>  {this.state.question[0]}</th>
+                        {/* videos*/}
+                        <Col xs={12} md={7} lg={4}>
+                            <th>  {this.state.question[0]}</th>
                         </Col>
 
-                        <Col xs={12} md={7} lg ={4}>
-                        <th>  {this.state.question[1]}</th>
+                        <Col xs={12} md={7} lg={4}>
+                            <th>  {this.state.question[1]}</th>
                         </Col>
 
-                        <Col xs={12} md={7} lg ={4}>
-                        <th>  {this.state.question[2]}</th>
+                        <Col xs={12} md={7} lg={4}>
+                            <th>  {this.state.question[2]}</th>
                         </Col>
-                 </Row>
+                    </Row>
                     {/* make a table content */}
                     <Row>
-                    <Col xs={12} md={7} lg ={7}>
-                        {/* feedback */}
-                    
-                        
-                       
-                    </Col>
-                    { window.scrollBy(0,this.state.scrollY)}
+                        <Col xs={12} md={7} lg={7}>
+                            {/* feedback */}
+
+
+
+                        </Col>
+                        {window.scrollBy(0, this.state.scrollY)}
                     </Row>
-                   
-                   
-            </Container>
-            
+
+
+                </Container>
+
             </div>
-            
+
         )
     }
 }

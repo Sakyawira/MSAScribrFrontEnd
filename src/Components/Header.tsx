@@ -40,7 +40,7 @@ export default class Header extends React.Component<IProps,IState> {
                             <TextField
                             id= "Search-Bar"
                             className = "SearchBar"
-                            placeholder="Enter your name"
+                            placeholder="Paste Video Link"
                             margin="normal"
                             variant="outlined"
                             onChange = { (event: any ) => this.setState({input:event.target.value})}
